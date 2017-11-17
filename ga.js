@@ -2469,7 +2469,7 @@ GA.create = function(width, height, setup, assetsToLoad, load) {
 
     //Add a `mouseup` event to the `window` object as well to
     //catch a mouse button release outside of the canvas area.
-    window.addEventListener(
+    ga.canvas.addEventListener(
       "mouseup", o.upHandler.bind(o), false
     );
 
@@ -2483,7 +2483,7 @@ GA.create = function(width, height, setup, assetsToLoad, load) {
 
     //Add a `touchend` event to the `window` object as well to
     //catch a mouse button release outside of the canvas area.
-    window.addEventListener(
+    ga.canvas.addEventListener(
       "touchend", o.upHandler.bind(o), false
     );
 
@@ -2643,10 +2643,10 @@ GA.create = function(width, height, setup, assetsToLoad, load) {
     };
 
     //Attach event listeners
-    window.addEventListener(
+    ga.canvas.addEventListener(
       "keydown", key.downHandler.bind(key), false
     );
-    window.addEventListener(
+    ga.canvas.addEventListener(
       "keyup", key.upHandler.bind(key), false
     );
     return key;
