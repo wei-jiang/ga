@@ -735,6 +735,7 @@ GA.create = function(width, height, setup, assetsToLoad, load) {
     //`put` methods that subracts the parent's global position from
     //the nested child's position.
     o.compensateForParentPosition = function(a, b) {
+      if(a.parent == b.parent) return;
       if (b.parent.gx !== 0 || b.parent.gy !== 0) {
         b.x -= a.gx;
         b.y -= a.gy;
