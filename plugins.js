@@ -111,7 +111,6 @@ Here's the table of contents to get you started:
 `particleEffect`: A versatile function for creating particles.
 `emitter`: A particle emitter for creating a constant stream of particles.
 `tilingSprite`: An easy way to create a seamless scrolling background effect.
-`burst`: DEPRICATED. A particle explosion effect.
 
 ### Chapter 4: Collision
 
@@ -198,7 +197,7 @@ Thank you, Chris!
   }
 
   if (window.hasOwnProperty('webkitAudioContext') &&
-      !window.hasOwnProperty('AudioContext')) {
+    !window.hasOwnProperty('AudioContext')) {
     window.AudioContext = webkitAudioContext;
 
     if (!AudioContext.prototype.hasOwnProperty('createGain'))
@@ -209,28 +208,28 @@ Thank you, Chris!
       AudioContext.prototype.createScriptProcessor = AudioContext.prototype.createJavaScriptNode;
 
     AudioContext.prototype.internal_createGain = AudioContext.prototype.createGain;
-    AudioContext.prototype.createGain = function() {
+    AudioContext.prototype.createGain = function () {
       var node = this.internal_createGain();
       fixSetTarget(node.gain);
       return node;
     };
 
     AudioContext.prototype.internal_createDelay = AudioContext.prototype.createDelay;
-    AudioContext.prototype.createDelay = function(maxDelayTime) {
+    AudioContext.prototype.createDelay = function (maxDelayTime) {
       var node = maxDelayTime ? this.internal_createDelay(maxDelayTime) : this.internal_createDelay();
       fixSetTarget(node.delayTime);
       return node;
     };
 
     AudioContext.prototype.internal_createBufferSource = AudioContext.prototype.createBufferSource;
-    AudioContext.prototype.createBufferSource = function() {
+    AudioContext.prototype.createBufferSource = function () {
       var node = this.internal_createBufferSource();
       if (!node.start) {
-        node.start = function ( when, offset, duration ) {
-          if ( offset || duration )
-            this.noteGrainOn( when, offset, duration );
+        node.start = function (when, offset, duration) {
+          if (offset || duration)
+            this.noteGrainOn(when, offset, duration);
           else
-            this.noteOn( when );
+            this.noteOn(when);
         }
       }
       if (!node.stop)
@@ -240,7 +239,7 @@ Thank you, Chris!
     };
 
     AudioContext.prototype.internal_createDynamicsCompressor = AudioContext.prototype.createDynamicsCompressor;
-    AudioContext.prototype.createDynamicsCompressor = function() {
+    AudioContext.prototype.createDynamicsCompressor = function () {
       var node = this.internal_createDynamicsCompressor();
       fixSetTarget(node.threshold);
       fixSetTarget(node.knee);
@@ -252,7 +251,7 @@ Thank you, Chris!
     };
 
     AudioContext.prototype.internal_createBiquadFilter = AudioContext.prototype.createBiquadFilter;
-    AudioContext.prototype.createBiquadFilter = function() {
+    AudioContext.prototype.createBiquadFilter = function () {
       var node = this.internal_createBiquadFilter();
       fixSetTarget(node.frequency);
       fixSetTarget(node.detune);
@@ -261,9 +260,9 @@ Thank you, Chris!
       return node;
     };
 
-    if (AudioContext.prototype.hasOwnProperty( 'createOscillator' )) {
+    if (AudioContext.prototype.hasOwnProperty('createOscillator')) {
       AudioContext.prototype.internal_createOscillator = AudioContext.prototype.createOscillator;
-      AudioContext.prototype.createOscillator = function() {
+      AudioContext.prototype.createOscillator = function () {
         var node = this.internal_createOscillator();
         if (!node.start)
           node.start = node.noteOn;
@@ -283,114 +282,114 @@ Thank you, Chris!
 //https://github.com/neovov/Fullscreen-API-Polyfill/blob/master/fullscreen-api-polyfill.js
 
 (function (doc) {
-	// Use JavaScript script mode
-	"use strict";
+  // Use JavaScript script mode
+  "use strict";
 
-	/*global Element */
+  /*global Element */
 
-	var pollute = true,
-		api,
-		vendor,
-		apis = {
-			// http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
-			w3: {
-				enabled: "fullscreenEnabled",
-				element: "fullscreenElement",
-				request: "requestFullscreen",
-				exit:    "exitFullscreen",
-				events: {
-					change: "fullscreenchange",
-					error:  "fullscreenerror"
-				}
-			},
-			webkit: {
-				enabled: "webkitIsFullScreen",
-				element: "webkitCurrentFullScreenElement",
-				request: "webkitRequestFullScreen",
-				exit:    "webkitCancelFullScreen",
-				events: {
-					change: "webkitfullscreenchange",
-					error:  "webkitfullscreenerror"
-				}
-			},
-			moz: {
-				enabled: "mozFullScreen",
-				element: "mozFullScreenElement",
-				request: "mozRequestFullScreen",
-				exit:    "mozCancelFullScreen",
-				events: {
-					change: "mozfullscreenchange",
-					error:  "mozfullscreenerror"
-				}
-			},
-			ms: {
-				enabled: "msFullscreenEnabled",
-				element: "msFullscreenElement",
-				request: "msRequestFullscreen",
-				exit:    "msExitFullscreen",
-				events: {
-					change: "MSFullscreenChange",
-					error:  "MSFullscreenError"
-				}
-			}
-		},
-		w3 = apis.w3;
+  var pollute = true,
+    api,
+    vendor,
+    apis = {
+      // http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
+      w3: {
+        enabled: "fullscreenEnabled",
+        element: "fullscreenElement",
+        request: "requestFullscreen",
+        exit: "exitFullscreen",
+        events: {
+          change: "fullscreenchange",
+          error: "fullscreenerror"
+        }
+      },
+      webkit: {
+        enabled: "webkitIsFullScreen",
+        element: "webkitCurrentFullScreenElement",
+        request: "webkitRequestFullScreen",
+        exit: "webkitCancelFullScreen",
+        events: {
+          change: "webkitfullscreenchange",
+          error: "webkitfullscreenerror"
+        }
+      },
+      moz: {
+        enabled: "mozFullScreen",
+        element: "mozFullScreenElement",
+        request: "mozRequestFullScreen",
+        exit: "mozCancelFullScreen",
+        events: {
+          change: "mozfullscreenchange",
+          error: "mozfullscreenerror"
+        }
+      },
+      ms: {
+        enabled: "msFullscreenEnabled",
+        element: "msFullscreenElement",
+        request: "msRequestFullscreen",
+        exit: "msExitFullscreen",
+        events: {
+          change: "MSFullscreenChange",
+          error: "MSFullscreenError"
+        }
+      }
+    },
+    w3 = apis.w3;
 
-	// Loop through each vendor's specific API
-	for (vendor in apis) {
-		// Check if document has the "enabled" property
-		if (apis[vendor].enabled in doc) {
-			// It seems this browser support the fullscreen API
-			api = apis[vendor];
-			break;
-		}
-	}
+  // Loop through each vendor's specific API
+  for (vendor in apis) {
+    // Check if document has the "enabled" property
+    if (apis[vendor].enabled in doc) {
+      // It seems this browser support the fullscreen API
+      api = apis[vendor];
+      break;
+    }
+  }
 
-	function dispatch( type, target ) {
-		var event = doc.createEvent( "Event" );
+  function dispatch(type, target) {
+    var event = doc.createEvent("Event");
 
-		event.initEvent( type, true, false );
-		target.dispatchEvent( event );
-	} // end of dispatch()
+    event.initEvent(type, true, false);
+    target.dispatchEvent(event);
+  } // end of dispatch()
 
-	function handleChange( e ) {
-		// Recopy the enabled and element values
-		doc[w3.enabled] = doc[api.enabled];
-		doc[w3.element] = doc[api.element];
+  function handleChange(e) {
+    // Recopy the enabled and element values
+    doc[w3.enabled] = doc[api.enabled];
+    doc[w3.element] = doc[api.element];
 
-		dispatch( w3.events.change, e.target );
-	} // end of handleChange()
+    dispatch(w3.events.change, e.target);
+  } // end of handleChange()
 
-	function handleError( e ) {
-		dispatch( w3.events.error, e.target );
-	} // end of handleError()
+  function handleError(e) {
+    dispatch(w3.events.error, e.target);
+  } // end of handleError()
 
-	// Pollute only if the API doesn't already exists
-	if (pollute && !(w3.enabled in doc) && api) {
-		// Add listeners for fullscreen events
-		doc.addEventListener( api.events.change, handleChange, false );
-		doc.addEventListener( api.events.error,  handleError,  false );
+  // Pollute only if the API doesn't already exists
+  if (pollute && !(w3.enabled in doc) && api) {
+    // Add listeners for fullscreen events
+    doc.addEventListener(api.events.change, handleChange, false);
+    doc.addEventListener(api.events.error, handleError, false);
 
-		// Copy the default value
-		doc[w3.enabled] = doc[api.enabled];
-		doc[w3.element] = doc[api.element];
+    // Copy the default value
+    doc[w3.enabled] = doc[api.enabled];
+    doc[w3.element] = doc[api.element];
 
-		// Match the reference for exitFullscreen
-		doc[w3.exit] = doc[api.exit];
+    // Match the reference for exitFullscreen
+    doc[w3.exit] = doc[api.exit];
 
-		// Add the request method to the Element's prototype
-		Element.prototype[w3.request] = function () {
-			return this[api.request].apply( this, arguments );
-		};
-	}
+    // Add the request method to the Element's prototype
+    Element.prototype[w3.request] = function () {
+      return this[api.request].apply(this, arguments);
+    };
+  }
 
-	// Return the API found (or undefined if the Fullscreen API is unavailable)
-	return api;
+  // Return the API found (or undefined if the Fullscreen API is unavailable)
+  return api;
 
 }(document));
 
 GA = GA || {};
-GA.plugins = function(ga) {
+GA.plugins = function (ga) {
 
   /*
   Chapter 1: Utilities
@@ -400,7 +399,7 @@ GA.plugins = function(ga) {
   //### move
   //Move a sprite or an array of sprites by adding its
   //velocity to its position
-  ga.move = function(sprites) {
+  ga.move = function (sprites) {
     if (sprites instanceof Array === false) {
       internal_move(sprites)
     } else {
@@ -428,7 +427,7 @@ GA.plugins = function(ga) {
 
   ga.distance = function (s1, s2) {
     var vx = s2.centerX - s1.centerX,
-        vy = s2.centerY - s1.centerY;
+      vy = s2.centerY - s1.centerY;
     return Math.sqrt(vx * vx + vy * vy);
   };
 
@@ -444,12 +443,12 @@ GA.plugins = function(ga) {
   c. The easing value, such as 0.3. A higher number makes the follower move faster
 
   */
-  ga.followEase = function(follower, leader, speed) {
+  ga.followEase = function (follower, leader, speed) {
 
     //Figure out the distance between the sprites
     var vx = leader.centerX - follower.centerX,
-        vy = leader.centerY - follower.centerY,
-        distance = Math.sqrt(vx * vx + vy * vy);
+      vy = leader.centerY - follower.centerY,
+      distance = Math.sqrt(vx * vx + vy * vy);
 
     //Move the follower if it's more than 1 pixel
     //away from the leader
@@ -472,12 +471,12 @@ GA.plugins = function(ga) {
 
   */
 
-  ga.followConstant = function(follower, leader, speed) {
+  ga.followConstant = function (follower, leader, speed) {
 
     //Figure out the distance between the sprites
     var vx = leader.centerX - follower.centerX,
-        vy = leader.centerY - follower.centerY,
-        distance = Math.sqrt(vx * vx + vy * vy);
+      vy = leader.centerY - follower.centerY,
+      distance = Math.sqrt(vx * vx + vy * vy);
 
     //Move the follower if it's more than 1 move
     //away from the leader
@@ -490,7 +489,7 @@ GA.plugins = function(ga) {
   //### rotateAroundSprite
   //Make a sprite rotate around another sprite
 
-  ga.rotateAroundSprite = function(rotatingSprite, centerSprite, distance, angle) {
+  ga.rotateAroundSprite = function (rotatingSprite, centerSprite, distance, angle) {
     rotatingSprite.x
       = centerSprite.centerX - rotatingSprite.parent.x
       + (distance * Math.cos(angle))
@@ -498,7 +497,7 @@ GA.plugins = function(ga) {
 
     rotatingSprite.y
       = centerSprite.centerY - rotatingSprite.parent.y//centerSprite.y
-      + (distance *  Math.sin(angle))
+      + (distance * Math.sin(angle))
       - rotatingSprite.halfWidth;
   };
 
@@ -508,7 +507,7 @@ GA.plugins = function(ga) {
   //be circular. If they're different values, the rotation will be
   //ellipical.
 
-  ga.rotateAroundPoint = function(pointX, pointY, distanceX, distanceY, angle) {
+  ga.rotateAroundPoint = function (pointX, pointY, distanceX, distanceY, angle) {
     var point = {};
     point.x = pointX + Math.cos(angle) * distanceX;
     point.y = pointY + Math.sin(angle) * distanceY;
@@ -528,7 +527,7 @@ GA.plugins = function(ga) {
 
   */
 
-  ga.angle = function(s1, s2) {
+  ga.angle = function (s1, s2) {
     return Math.atan2(
       s2.centerY - s1.centerY,
       s2.centerX - s1.centerX
@@ -547,18 +546,18 @@ GA.plugins = function(ga) {
       randomInt(1, 10);
 
   */
-  ga.randomInt = function(min, max) {
+  ga.randomInt = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
   //### randomFloat
   // Returns a random floating point number between a minimum and maximum value
-  ga.randomFloat = function(min, max) {
-    return min + Math.random()*(max-min);
+  ga.randomFloat = function (min, max) {
+    return min + Math.random() * (max - min);
   }
 
   //### wait
-  ga.wait = function(duration, callBack) {
+  ga.wait = function (duration, callBack) {
     return setTimeout(callBack, duration);
   };
 
@@ -572,7 +571,7 @@ GA.plugins = function(ga) {
   The worldObject needs to have a `width` and `height` property.
   */
 
-  ga.worldCamera = function(world, canvas) {
+  ga.worldCamera = function (world, canvas) {
     var camera = {
       width: canvas.width,
       height: canvas.height,
@@ -616,44 +615,44 @@ GA.plugins = function(ga) {
       get bottomInnerBoundary() {
         return this.y + (this.height / 2) + (this.height / 4);
       },
-      follow: function(sprite) {
+      follow: function (sprite) {
 
         //Check the sprites position in relation to the inner boundary
-        if(sprite.x < this.leftInnerBoundary) {
+        if (sprite.x < this.leftInnerBoundary) {
           //Move the camera to follow the sprite if the sprite strays outside
           //this.x = Math.floor(sprite.x - (this.width / 4));
           this.x = sprite.x - (this.width / 4);
         }
-        if(sprite.y < this.topInnerBoundary) {
+        if (sprite.y < this.topInnerBoundary) {
 
           //this.y = Math.floor(sprite.y - (this.height / 4));
           this.y = sprite.y - (this.height / 4);
         }
-        if(sprite.x + sprite.width > this.rightInnerBoundary) {
+        if (sprite.x + sprite.width > this.rightInnerBoundary) {
 
           //this.x = Math.floor(sprite.x + sprite.width - (this.width / 4 * 3));
           this.x = sprite.x + sprite.width - (this.width / 4 * 3);
         }
-        if(sprite.y + sprite.height > this.bottomInnerBoundary) {
+        if (sprite.y + sprite.height > this.bottomInnerBoundary) {
 
           //this.y = Math.floor(sprite.y + sprite.height - (this.height / 4 * 3));
           this.y = sprite.y + sprite.height - (this.height / 4 * 3);
         }
         //If the camera reaches the edge of the map, stop it from moving
-        if(this.x < 0) {
+        if (this.x < 0) {
           this.x = 0;
         }
-        if(this.y < 0) {
+        if (this.y < 0) {
           this.y = 0;
         }
-        if(this.x + this.width > world.width) {
+        if (this.x + this.width > world.width) {
           this.x = world.width - this.width;
         }
-        if(this.y + this.height > world.height) {
+        if (this.y + this.height > world.height) {
           this.y = world.height - this.height;
         }
       },
-      centerOver: function(sprite) {
+      centerOver: function (sprite) {
 
         //Center the camera over a sprite
         this.x = (sprite.x + sprite.halfWidth) - (this.width / 2);
@@ -663,108 +662,108 @@ GA.plugins = function(ga) {
 
     return camera;
   };
-  
-   /*
-  ga.worldCamera = function(world, canvas) {
-    var camera = ga.group();
-    camera.width = canvas.width;
-    camera.height = canvas.height;
-    camera._x = 0;
-    camera._y = 0;
-    Object.defineProperties(camera, {
-      x: {
-        get: function() {
-          return this._x; 
-        },
-        set: function(value) {
-          this._x = value;
-          world.x = -this._x;
-          //world._previousX = world.x;
-        },
-        enumerable: true, configurable: true
-      },
-      y: {
-        get: function() {
-          return this._y; 
-        },
-        set: function(value) {
-          this._y = value;
-          world.y = -this._y;
-          //world._previousY = world.y;
-        },
-        enumerable: true, configurable: true
-      },
-      rightInnerBoundary: {
-        get: function() {
-          return this.x + (this.width / 2) + (this.width / 4);
-        },
-        enumerable: true, configurable: true
-      },
-      leftInnerBoundary: {
-        get: function() {
-          return this.x + (this.width / 2) - (this.width / 4);
-        },
-        enumerable: true, configurable: true
-      },
-      topInnerBoundary: {
-        get: function() {
-          return this.y + (this.height / 2) - (this.height / 4);
-        },
-        enumerable: true, configurable: true
-      },
-      bottomInnerBoundary: {
-        get: function() {
-          return this.y + (this.height / 2) + (this.height / 4);
-        },
-        enumerable: true, configurable: true
-      }
-    });
-    camera.follow = function(sprite) {
-      //Check the sprites position in relation to the inner boundary
-      if(sprite.x < this.leftInnerBoundary) {
-        //Move the camera to follow the sprite if the sprite strays outside
-        this.x = Math.floor(sprite.x - (this.width / 4));
-      }
-      if(sprite.y < this.topInnerBoundary) {
-        this.y = Math.floor(sprite.y - (this.height / 4));
-      }
-      if(sprite.x + sprite.width > this.rightInnerBoundary) {
-        this.x = Math.floor(sprite.x + sprite.width - (this.width / 4 * 3));
-      }
-      if(sprite.y + sprite.height > this.bottomInnerBoundary) {
-        this.y = Math.floor(sprite.y + sprite.height - (this.height / 4 * 3));
-      }
-      //If the camera reaches the edge of the map, stop it from moving
-      if(this.x < 0) {
-        this.x = 0;
-      }
-      if(this.y < 0) {
-        this.y = 0;
-      }
-      if(this.x + this.width > world.width) {
-        this.x = world.width - this.width;
-      }
-      if(this.y + this.height > world.height) {
-        this.y = world.height - this.height;
-      }
-    };
-    camera.centerOver = function(sprite) {
-      //Center the camera over a sprite
-      this.x = (sprite.x + sprite.halfWidth) - (this.width / 2);
-      this.y = (sprite.y + sprite.halfHeight) - (this.height / 2);
-      console.log(world)
-    };
 
-    return camera;
-  };
-  */
+  /*
+ ga.worldCamera = function(world, canvas) {
+   var camera = ga.group();
+   camera.width = canvas.width;
+   camera.height = canvas.height;
+   camera._x = 0;
+   camera._y = 0;
+   Object.defineProperties(camera, {
+     x: {
+       get: function() {
+         return this._x; 
+       },
+       set: function(value) {
+         this._x = value;
+         world.x = -this._x;
+         //world._previousX = world.x;
+       },
+       enumerable: true, configurable: true
+     },
+     y: {
+       get: function() {
+         return this._y; 
+       },
+       set: function(value) {
+         this._y = value;
+         world.y = -this._y;
+         //world._previousY = world.y;
+       },
+       enumerable: true, configurable: true
+     },
+     rightInnerBoundary: {
+       get: function() {
+         return this.x + (this.width / 2) + (this.width / 4);
+       },
+       enumerable: true, configurable: true
+     },
+     leftInnerBoundary: {
+       get: function() {
+         return this.x + (this.width / 2) - (this.width / 4);
+       },
+       enumerable: true, configurable: true
+     },
+     topInnerBoundary: {
+       get: function() {
+         return this.y + (this.height / 2) - (this.height / 4);
+       },
+       enumerable: true, configurable: true
+     },
+     bottomInnerBoundary: {
+       get: function() {
+         return this.y + (this.height / 2) + (this.height / 4);
+       },
+       enumerable: true, configurable: true
+     }
+   });
+   camera.follow = function(sprite) {
+     //Check the sprites position in relation to the inner boundary
+     if(sprite.x < this.leftInnerBoundary) {
+       //Move the camera to follow the sprite if the sprite strays outside
+       this.x = Math.floor(sprite.x - (this.width / 4));
+     }
+     if(sprite.y < this.topInnerBoundary) {
+       this.y = Math.floor(sprite.y - (this.height / 4));
+     }
+     if(sprite.x + sprite.width > this.rightInnerBoundary) {
+       this.x = Math.floor(sprite.x + sprite.width - (this.width / 4 * 3));
+     }
+     if(sprite.y + sprite.height > this.bottomInnerBoundary) {
+       this.y = Math.floor(sprite.y + sprite.height - (this.height / 4 * 3));
+     }
+     //If the camera reaches the edge of the map, stop it from moving
+     if(this.x < 0) {
+       this.x = 0;
+     }
+     if(this.y < 0) {
+       this.y = 0;
+     }
+     if(this.x + this.width > world.width) {
+       this.x = world.width - this.width;
+     }
+     if(this.y + this.height > world.height) {
+       this.y = world.height - this.height;
+     }
+   };
+   camera.centerOver = function(sprite) {
+     //Center the camera over a sprite
+     this.x = (sprite.x + sprite.halfWidth) - (this.width / 2);
+     this.y = (sprite.y + sprite.halfHeight) - (this.height / 2);
+     console.log(world)
+   };
+
+   return camera;
+ };
+ */
   //### scaleToWindow
   //Center and scale the game engine inside the HTML page 
-  ga.scaleToWindow = function(backgroundColor) {
+  ga.scaleToWindow = function (backgroundColor) {
 
     backgroundColor = backgroundColor || "#2C3539";
     var scaleX, scaleY, scale, center;
-    
+
     //1. Scale the canvas to the correct size
     //Figure out the scale amount on each axis
     scaleX = window.innerWidth / ga.canvas.width;
@@ -782,17 +781,17 @@ GA.plugins = function(ga) {
     if (ga.canvas.width > ga.canvas.height) {
       if (ga.canvas.width * scale < window.innerWidth) {
         center = "horizontally";
-      } else { 
+      } else {
         center = "vertically";
       }
     } else {
       if (ga.canvas.height * scale < window.innerHeight) {
         center = "vertically";
-      } else { 
+      } else {
         center = "horizontally";
       }
     }
-    
+
     //Center horizontally (for square or tall canvases)
     var margin;
     if (center === "horizontally") {
@@ -815,10 +814,10 @@ GA.plugins = function(ga) {
     ga.canvas.style.paddingTop = 0;
     ga.canvas.style.paddingBottom = 0;
     ga.canvas.style.display = "block";
-    
+
     //4. Set the color of the HTML body background
     document.body.style.backgroundColor = backgroundColor;
-    
+
     //5. Set the game engine and pointer to the correct scale. 
     //This is important for correct hit testing between the pointer and sprites
     ga.pointer.scale = scale;
@@ -830,8 +829,8 @@ GA.plugins = function(ga) {
     ga.canvas.scaled = true;
 
     //Fix some quirkiness in scaling for Safari
-    var ua = navigator.userAgent.toLowerCase(); 
-    if (ua.indexOf("safari") != -1) { 
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf("safari") != -1) {
       if (ua.indexOf("chrome") > -1) {
         // Chrome
       } else {
@@ -840,56 +839,6 @@ GA.plugins = function(ga) {
         ga.canvas.style.minHeight = "100%";
       }
     }
-  };
-
-
-
-  //### scaleToFit - DEPRICATED - DO NOT USE!
-  /*
-  Center and scale Ga inside the HTML page. The `dimension` can be either "width" or "height"
-  depending on you want to center the game horizontally ("width") or vertically ("height").
-  */
-  ga.scaleToFit = function(dimension, color) {
-    var scaleX, scaleY, scale;
-
-    if (dimension === "width") {
-      scaleX = ga.canvas.width / window.innerWidth;
-      scaleY = ga.canvas.height / window.innerHeight;
-    }
-    if (dimension === "height") {
-      scaleX = window.innerWidth / ga.canvas.width;
-      scaleY = window.innerHeight / ga.canvas.height;
-    }
-    scale = Math.min(scaleX, scaleY);
-    ga.canvas.style.transformOrigin = "0 0";
-    ga.canvas.style.transform = "scale(" + scale + ")";
-
-    //Set the color of the HTML body background
-    document.body.style.backgroundColor = color;
-
-    //Center the canvas in the HTML body
-    ga.canvas.style.paddingLeft = 0;
-    ga.canvas.style.paddingRight = 0;
-    ga.canvas.style.marginLeft = "auto";
-    ga.canvas.style.marginRight = "auto";
-    ga.canvas.style.display = "block";
-    ga.canvas.style.minHeight = "100%";
-    
-    //Fix some quirkiness in scaling for Safari
-    var ua = navigator.userAgent.toLowerCase(); 
-    if (ua.indexOf('safari') != -1) { 
-      if (ua.indexOf('chrome') > -1) {
-        // Chrome
-      } else {
-        // Safari
-        ga.canvas.style.maxHeight = "100%";
-        ga.canvas.style.minHeight = "100%";
-      }
-    }
-    
-    //Set ga to the correct scale. This important for correct hit testing
-    //between the pointer and sprites
-    ga.scale = scale;
   };
 
   /*
@@ -907,11 +856,11 @@ GA.plugins = function(ga) {
   and runs their `updateParticles` functions.
   */
 
-  ga.updateShakingSprites = function() {
-    
+  ga.updateShakingSprites = function () {
+
     //Update all the shaking sprites
     if (ga.shakingSprites.length > 0) {
-      for(var i = ga.shakingSprites.length - 1; i >= 0; i--) {
+      for (var i = ga.shakingSprites.length - 1; i >= 0; i--) {
         var shakingSprite = ga.shakingSprites[i];
         if (shakingSprite.updateShake) shakingSprite.updateShake();
       }
@@ -945,7 +894,7 @@ GA.plugins = function(ga) {
   displacement, in pixels.
   */
 
-  ga.shake = function(sprite, magnitude, angular) {
+  ga.shake = function (sprite, magnitude, angular) {
 
     if (magnitude === undefined) magnitude = 16;
     if (angular === undefined) angular = false;
@@ -959,30 +908,30 @@ GA.plugins = function(ga) {
     //Capture the sprite's position and angle so you can
     //restore them after the shaking has finished
     var startX = sprite.x,
-        startY = sprite.y,
-        startAngle = sprite.rotation;
+      startY = sprite.y,
+      startAngle = sprite.rotation;
 
     //Divide the magnitude into 10 units so that you can 
     //reduce the amount of shake by 10 percent each frame
     var magnitudeUnit = magnitude / numberOfShakes;
-    
+
     //The `randomInt` helper function
-    var randomInt = function(min, max){
+    var randomInt = function (min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     };
-    
+
     //Add the sprite to the `shakingSprites` array if it
     //isn't already there
-    if(ga.shakingSprites.indexOf(sprite) === -1) {
+    if (ga.shakingSprites.indexOf(sprite) === -1) {
 
       ga.shakingSprites.push(sprite);
-      
+
       //Add an `updateShake` method to the sprite.
       //The `updateShake` method will be called each frame
       //in the game loop. The shake effect type can be either
       //up and down (x/y shaking) or angular (rotational shaking).
-      sprite.updateShake = function(){
-        if(angular) {
+      sprite.updateShake = function () {
+        if (angular) {
           angularShake();
         } else {
           upAndDownShake();
@@ -1020,7 +969,7 @@ GA.plugins = function(ga) {
         ga.shakingSprites.splice(ga.shakingSprites.indexOf(sprite), 1);
       }
     }
-    
+
     //The `angularShake` function
     //First set the initial tilt angle to the right (+1) 
     var tiltAngle = 1;
@@ -1052,7 +1001,7 @@ GA.plugins = function(ga) {
       }
     }
   };
- 
+
   /*
   Chapter 2: The tweening module
   ---------------------------------------------------------
@@ -1104,11 +1053,11 @@ GA.plugins = function(ga) {
   and runs their `updateParticles` functions.
   */
 
-  ga.updateTweens = function() {
-    
+  ga.updateTweens = function () {
+
     //Update all the particles in the game.
     if (ga.tweens.length > 0) {
-      for(var i = ga.tweens.length - 1; i >= 0; i--) {
+      for (var i = ga.tweens.length - 1; i >= 0; i--) {
         var tween = ga.tweens[i];
         if (tween) tween.update();
       }
@@ -1125,12 +1074,12 @@ GA.plugins = function(ga) {
   //Instead, their used by the higher-level tweening functions.
 
   //Bezier curve
-  ga.cubicBezier = function(t, a, b, c, d) {
+  ga.cubicBezier = function (t, a, b, c, d) {
     var t2 = t * t;
     var t3 = t2 * t;
-    return a  
+    return a
       + (-a * 3 + t * (3 * a - a * t)) * t
-      + (3 * b + t * (-6 * b + b * 3 * t)) * t 
+      + (3 * b + t * (-6 * b + b * 3 * t)) * t
       + (c * 3 - c * 3 * t) * t2 + d * t3;
   }
 
@@ -1138,31 +1087,31 @@ GA.plugins = function(ga) {
   var ease = {
 
     //Linear
-    linear: function(x) {return x;},
+    linear: function (x) { return x; },
 
     //Smoothstep
-    smoothstep: function(x) {return x * x * (3 - 2 * x);},
-    smoothstepSquared: function(x) {return Math.pow((x * x * (3 - 2 * x)), 2);},
-    smoothstepCubed: function(x) {return Math.pow((x * x * (3 - 2 * x)), 3);},
+    smoothstep: function (x) { return x * x * (3 - 2 * x); },
+    smoothstepSquared: function (x) { return Math.pow((x * x * (3 - 2 * x)), 2); },
+    smoothstepCubed: function (x) { return Math.pow((x * x * (3 - 2 * x)), 3); },
 
     //Acceleration
-    acceleration: function(x) {return x * x;},
-    accelerationCubed: function(x) {return Math.pow(x * x, 3);},
+    acceleration: function (x) { return x * x; },
+    accelerationCubed: function (x) { return Math.pow(x * x, 3); },
 
     //Deceleration
-    deceleration: function(x) {return 1 - Math.pow(1 - x, 2);},
-    decelerationCubed: function(x) {return 1 - Math.pow(1 - x, 3);},
+    deceleration: function (x) { return 1 - Math.pow(1 - x, 2); },
+    decelerationCubed: function (x) { return 1 - Math.pow(1 - x, 3); },
 
     //Sine
-    sine: function(x) {return Math.sin(x * Math.PI / 2);},
-    sineSquared: function(x) {return Math.pow(Math.sin(x * Math.PI / 2), 2);},
-    sineCubed: function(x) {return Math.pow(Math.sin(x * Math.PI / 2), 2);},
-    inverseSine: function(x) {return 1 - Math.sin((1 - x) * Math.PI / 2);},
-    inverseSineSquared: function(x) {return 1 - Math.pow(Math.sin((1 - x) * Math.PI / 2), 2);},
-    inverseSineCubed: function(x) {return 1 - Math.pow(Math.sin((1 - x) * Math.PI / 2), 3);},
+    sine: function (x) { return Math.sin(x * Math.PI / 2); },
+    sineSquared: function (x) { return Math.pow(Math.sin(x * Math.PI / 2), 2); },
+    sineCubed: function (x) { return Math.pow(Math.sin(x * Math.PI / 2), 2); },
+    inverseSine: function (x) { return 1 - Math.sin((1 - x) * Math.PI / 2); },
+    inverseSineSquared: function (x) { return 1 - Math.pow(Math.sin((1 - x) * Math.PI / 2), 2); },
+    inverseSineCubed: function (x) { return 1 - Math.pow(Math.sin((1 - x) * Math.PI / 2), 3); },
 
     //Spline
-    spline: function(t, p0, p1, p2, p3) {
+    spline: function (t, p0, p1, p2, p3) {
       return 0.5 * (
         (2 * p1) +
         (-p0 + p2) * t +
@@ -1177,7 +1126,7 @@ GA.plugins = function(ga) {
   //property. It's used by all the higher-level tween functions,
   //but you can use it to create your own custom tween effects.
 
-  ga.tweenProperty = function(
+  ga.tweenProperty = function (
     sprite,                  //Sprite object
     property,                //String property
     startValue,              //Tween start value
@@ -1207,7 +1156,7 @@ GA.plugins = function(ga) {
 
     //Use `o.start` to make a new tween using the current
     //end point values
-    o.start = function(startValue, endValue) {
+    o.start = function (startValue, endValue) {
 
       //Clone the start and end values so that any possible references to sprite
       //properties are converted to ordinary numbers 
@@ -1227,8 +1176,8 @@ GA.plugins = function(ga) {
 
     //The `update` method will be called on each frame by the game loop.
     //This is what makes the tween move
-    o.update = function() {
-      
+    o.update = function () {
+
       var time, curvedTime;
 
       if (o.playing) {
@@ -1246,8 +1195,8 @@ GA.plugins = function(ga) {
           //If it's not a spline, use one of the ordinary easing functions
           if (typeArray[0] !== "bounce") {
             curvedTime = ease[type](normalizedTime);
-          } 
-          
+          }
+
           //If it's a spline, use the `spline` function and apply the
           //2 additional `type` array values as the spline's start and
           //end points
@@ -1263,13 +1212,13 @@ GA.plugins = function(ga) {
 
         //When the tween has finished playing, run the end tasks
         else {
-          o.end(); 
+          o.end();
         }
       }
     };
-      
+
     //The `end` method will be called when the tween is finished
-    o.end = function() {
+    o.end = function () {
 
       //Set `playing` to `false`
       o.playing = false;
@@ -1284,16 +1233,16 @@ GA.plugins = function(ga) {
       //using the same values, but use the current tween's `startValue`
       //as the next tween's `endValue` 
       if (yoyo) {
-        ga.wait(delayBeforeRepeat, function() {
+        ga.wait(delayBeforeRepeat, function () {
           o.start(o.endValue, o.startValue);
         });
       }
     };
 
     //Pause and play methods
-    o.play = function() {o.playing = true;};
-    o.pause = function() {o.playing = false;};
-    
+    o.play = function () { o.playing = true; };
+    o.pause = function () { o.playing = false; };
+
     //Return the tween object
     return o;
   }
@@ -1302,7 +1251,7 @@ GA.plugins = function(ga) {
 
   //###`fadeOut`
   //Fade a sprite out, over a duration in frames.
-  ga.fadeOut = function(sprite, frames) {
+  ga.fadeOut = function (sprite, frames) {
     if (frames === undefined) frames = 60;
     return ga.tweenProperty(
       sprite, "alpha", sprite.alpha, 0, frames, "sine"
@@ -1311,7 +1260,7 @@ GA.plugins = function(ga) {
 
   //###`fadeIn`
   //Fade a sprite in, over a duration in frames.
-  ga.fadeIn = function(sprite, frames) {
+  ga.fadeIn = function (sprite, frames) {
     if (frames === undefined) frames = 60;
     return ga.tweenProperty(
       sprite, "alpha", sprite.alpha, 1, frames, "sine"
@@ -1322,7 +1271,7 @@ GA.plugins = function(ga) {
   //Fades the sprite in and out at a steady rate over a duration in
   //frames. Set the `minAlpha` to something greater than 0 if you
   //don't want the sprite to fade away completely.
-  ga.pulse = function(sprite, frames, minAlpha) {
+  ga.pulse = function (sprite, frames, minAlpha) {
     if (frames === undefined) frames = 60;
     if (minAlpha === undefined) minAlpha = 0;
     return ga.tweenProperty(
@@ -1336,7 +1285,7 @@ GA.plugins = function(ga) {
   //(See the `tweenProperty` function above for information on how it
   //works.)
 
-  ga.makeTween = function(tweensToAdd) {
+  ga.makeTween = function (tweensToAdd) {
 
     //Create an object to manage the tweens
     var o = {};
@@ -1345,8 +1294,8 @@ GA.plugins = function(ga) {
     o.tweens = [];
 
     //Make a new tween for each array
-    tweensToAdd.forEach(function(tweenPropertyArguments) {
-      
+    tweensToAdd.forEach(function (tweenPropertyArguments) {
+
       //Use the tween property arguments to make a new tween
       var newTween = ga.tweenProperty(
         tweenPropertyArguments[0],
@@ -1366,10 +1315,10 @@ GA.plugins = function(ga) {
     //Add a counter to keep track of the
     //number of tweens that have completed their actions
     var completionCounter = 0;
-    
+
     //`o.completed` will be called each time one of the tweens
     //finishes
-    o.completed = function() {
+    o.completed = function () {
 
       //Add 1 to the `completionCounter`
       completionCounter += 1;
@@ -1380,21 +1329,21 @@ GA.plugins = function(ga) {
         if (o.onComplete) o.onComplete();
         completionCounter = 0;
       }
-    }; 
+    };
 
     //Add `onComplete` methods to all tweens
-    o.tweens.forEach(function(tween) {
-      tween.onComplete = function() {o.completed();};
+    o.tweens.forEach(function (tween) {
+      tween.onComplete = function () { o.completed(); };
     });
-    
+
     //Add pause and play methods to control all the tweens
-    o.pause = function() {
-      o.tweens.forEach(function(tween) {
+    o.pause = function () {
+      o.tweens.forEach(function (tween) {
         tween.playing = false;
       });
     };
-    o.play = function() {
-      o.tweens.forEach(function(tween) {
+    o.play = function () {
+      o.tweens.forEach(function (tween) {
         tween.playing = true;
       });
     };
@@ -1407,9 +1356,9 @@ GA.plugins = function(ga) {
   //Make a sprite slide from one x/y position to another.
   //Use `slide` like this:
   //var spriteSlide = g.slide(sprite, 400, 0, 60, "smoothstep", true, 0);
-  
-  ga.slide = function(
-    sprite, endX, endY, 
+
+  ga.slide = function (
+    sprite, endX, endY,
     frames, type, yoyo, delayBeforeRepeat
   ) {
 
@@ -1419,7 +1368,7 @@ GA.plugins = function(ga) {
     if (yoyo === undefined) yoyo = false;
     if (delayBeforeRepeat === undefined) delayBeforeRepeat = 0;
 
-    return ga.makeTween([ 
+    return ga.makeTween([
 
       //Create the x axis tween
       [sprite, "x", sprite.x, endX, frames, type, yoyo, delayBeforeRepeat],
@@ -1436,8 +1385,8 @@ GA.plugins = function(ga) {
   //Use it like this:
   //var spriteBreathe = g.breathe(sprite, 1.2, 1.2, 60, true, 300);
 
-  ga.breathe = function(
-    sprite, endScaleX, endScaleY, 
+  ga.breathe = function (
+    sprite, endScaleX, endScaleY,
     frames, yoyo, delayBeforeRepeat
   ) {
 
@@ -1446,17 +1395,17 @@ GA.plugins = function(ga) {
     if (yoyo === undefined) yoyo = true;
     if (delayBeforeRepeat === undefined) delayBeforeRepeat = 0;
 
-    return ga.makeTween([ 
+    return ga.makeTween([
 
       //Create the scaleX tween
       [
-        sprite, "scaleX", sprite.scaleX, endScaleX, 
+        sprite, "scaleX", sprite.scaleX, endScaleX,
         frames, "smoothstepSquared", yoyo, delayBeforeRepeat
       ],
 
       //Create the scaleY tween
       [
-        sprite, "scaleY", sprite.scaleY, endScaleY, 
+        sprite, "scaleY", sprite.scaleY, endScaleY,
         frames, "smoothstepSquared", yoyo, delayBeforeRepeat
       ]
     ]);
@@ -1465,22 +1414,22 @@ GA.plugins = function(ga) {
   //###`scale` smoothly change a sprite's scale. Use it like this:
   //var spriteScale = g.scale(sprite, finalScaleX, finalScaleY, frames);
 
-  ga.scale = function(sprite, endScaleX, endScaleY, frames) {
-    
+  ga.scale = function (sprite, endScaleX, endScaleY, frames) {
+
     //Set defaults
     if (frames === undefined) frames = 60;
 
-    return ga.makeTween([ 
+    return ga.makeTween([
 
       //Create the scaleX tween
       [
-        sprite, "scaleX", sprite.scaleX, endScaleX, 
+        sprite, "scaleX", sprite.scaleX, endScaleX,
         frames, "smoothstep", false
       ],
 
       //Create the scaleY tween
       [
-        sprite, "scaleY", sprite.scaleY, endScaleY, 
+        sprite, "scaleY", sprite.scaleY, endScaleY,
         frames, "smoothstep", false
       ]
     ]);
@@ -1489,12 +1438,12 @@ GA.plugins = function(ga) {
   //`strobe`
   //A rapid looping scale effect. Use it like this:
   //var spriteStrobe = g.strobe(sprite, 1.3, 10, 20, 10);
-  
-  ga.strobe = function(
-    sprite, scaleFactor, startMagnitude, endMagnitude, 
+
+  ga.strobe = function (
+    sprite, scaleFactor, startMagnitude, endMagnitude,
     frames, yoyo, delayBeforeRepeat
   ) {
-    
+
     //Set defaults
     if (scaleFactor === undefined) scaleFactor = 1.3;
     if (startMagnitude === undefined) startMagnitude = 10;
@@ -1503,19 +1452,19 @@ GA.plugins = function(ga) {
     if (yoyo === undefined) yoyo = true;
     if (delayBeforeRepeat === undefined) delayBeforeRepeat = 0;
 
-    var bounce = "bounce " + startMagnitude + " " + endMagnitude; 
+    var bounce = "bounce " + startMagnitude + " " + endMagnitude;
 
-    return ga.makeTween([ 
+    return ga.makeTween([
 
       //Create the scaleX tween
       [
-        sprite, "scaleX", sprite.scaleX, scaleFactor, frames, 
+        sprite, "scaleX", sprite.scaleX, scaleFactor, frames,
         bounce, yoyo, delayBeforeRepeat
       ],
 
       //Create the scaleY tween
       [
-        sprite, "scaleY", sprite.scaleY, scaleFactor, frames, 
+        sprite, "scaleY", sprite.scaleY, scaleFactor, frames,
         bounce, yoyo, delayBeforeRepeat
       ]
     ]);
@@ -1525,14 +1474,14 @@ GA.plugins = function(ga) {
   //Make a sprite wobble like a plate of jelly. Use it like this:
   //var spriteWobble = g.wobble(sprite, 1.2, 1.2);
 
-  ga.wobble = function(
-    sprite, 
-    scaleFactorX, 
-    scaleFactorY, 
+  ga.wobble = function (
+    sprite,
+    scaleFactorX,
+    scaleFactorY,
     frames,
-    xStartMagnitude, 
+    xStartMagnitude,
     xEndMagnitude,
-    yStartMagnitude, 
+    yStartMagnitude,
     yEndMagnitude,
     friction,
     yoyo,
@@ -1552,26 +1501,26 @@ GA.plugins = function(ga) {
     if (delayBeforeRepeat === undefined) delayBeforeRepeat = 0;
 
     var bounceX = "bounce " + xStartMagnitude + " " + xEndMagnitude,
-        bounceY = "bounce " + yStartMagnitude + " " + yEndMagnitude; 
+      bounceY = "bounce " + yStartMagnitude + " " + yEndMagnitude;
 
-    var o = ga.makeTween([ 
+    var o = ga.makeTween([
 
       //Create the scaleX tween
       [
-        sprite, "scaleX", sprite.scaleX, scaleFactorX, frames, 
+        sprite, "scaleX", sprite.scaleX, scaleFactorX, frames,
         bounceX, yoyo, delayBeforeRepeat
       ],
 
       //Create the scaleY tween
       [
-        sprite, "scaleY", sprite.scaleY, scaleFactorY, frames, 
+        sprite, "scaleY", sprite.scaleY, scaleFactorY, frames,
         bounceY, yoyo, delayBeforeRepeat
       ]
     ]);
 
     //Add some friction to the `endValue` at the end of each tween 
-    o.tweens.forEach(function(tween) {
-      tween.onComplete = function() {
+    o.tweens.forEach(function (tween) {
+      tween.onComplete = function () {
 
         //Add friction if the `endValue` is greater than 1.
         if (tween.endValue > 1) {
@@ -1580,7 +1529,7 @@ GA.plugins = function(ga) {
           //Set the `endValue` to 1 when the effect is finished and 
           //remove the tween from the global `tweens` array.
           if (tween.endValue <= 1) {
-            tween.endValue = 1; 
+            tween.endValue = 1;
             ga.removeTween(tween);
           }
         }
@@ -1594,18 +1543,18 @@ GA.plugins = function(ga) {
   A utility to remove tweens from the game
 
   */
-  ga.removeTween = function(tweenObject) {
+  ga.removeTween = function (tweenObject) {
 
     //Remove the tween if `tweenObject` doesn't have any nested
     //tween objects
-    if(!tweenObject.tweens) {
+    if (!tweenObject.tweens) {
       tweenObject.pause();
       ga.tweens.splice(ga.tweens.indexOf(tweenObject), 1);
-    
-    //Otherwise, remove the nested tween objects
+
+      //Otherwise, remove the nested tween objects
     } else {
       tweenObject.pause();
-      tweenObject.tweens.forEach(function(element) {
+      tweenObject.tweens.forEach(function (element) {
         ga.tweens.splice(ga.tweens.indexOf(element), 1);
       });
     }
@@ -1616,12 +1565,12 @@ GA.plugins = function(ga) {
   ------------
   */
 
-  ga.followCurve = function(
+  ga.followCurve = function (
     sprite,
     pointsArray,
-    totalFrames, 
+    totalFrames,
     type,
-    yoyo, 
+    yoyo,
     delayBeforeRepeat
   ) {
 
@@ -1643,7 +1592,7 @@ GA.plugins = function(ga) {
 
     //Use `tween.start` to make a new tween using the current
     //end point values
-    o.start = function(pointsArray){
+    o.start = function (pointsArray) {
       o.playing = true;
       o.totalFrames = totalFrames;
       o.frameCounter = 0;
@@ -1661,10 +1610,10 @@ GA.plugins = function(ga) {
 
     //The `update` method will be called on each frame by the game loop.
     //This is what makes the tween move
-    o.update = function() {
-      
-      var normalizedTime, curvedTime, 
-          p = o.pointsArray;
+    o.update = function () {
+
+      var normalizedTime, curvedTime,
+        p = o.pointsArray;
 
       if (o.playing) {
 
@@ -1676,13 +1625,13 @@ GA.plugins = function(ga) {
           normalizedTime = o.frameCounter / o.totalFrames;
 
           //Select the correct easing function
-          
+
           //If it's not a spline, use one of the ordinary tween
           //functions
           if (typeArray[0] !== "bounce") {
             curvedTime = ease[type](normalizedTime);
-          } 
-          
+          }
+
           //If it's a bounce type, use the `spine` function and apply the
           //2 additional `type` array values as the spline's start and
           //end points
@@ -1693,20 +1642,20 @@ GA.plugins = function(ga) {
           //Apply the Bezier curve to the sprite's position 
           sprite.x = ga.cubicBezier(curvedTime, p[0][0], p[1][0], p[2][0], p[3][0]);
           sprite.y = ga.cubicBezier(curvedTime, p[0][1], p[1][1], p[2][1], p[3][1]);
-          
+
           //Add one to the `elapsedFrames`
           o.frameCounter += 1;
         }
 
         //When the tween has finished playing, run the end tasks
         else {
-         o.end(); 
+          o.end();
         }
       }
     };
-      
+
     //The `end` method will be called when the tween is finished
-    o.end = function() {
+    o.end = function () {
 
       //Set `playing` to `false`
       o.playing = false;
@@ -1721,7 +1670,7 @@ GA.plugins = function(ga) {
       //If the tween's `yoyo` property is `true`, reverse the array and
       //use it to create a new tween
       if (yoyo) {
-        ga.wait(delayBeforeRepeat, function() {
+        ga.wait(delayBeforeRepeat, function () {
           o.pointsArray = o.pointsArray.reverse();
           o.start(o.pointsArray);
         });
@@ -1729,19 +1678,19 @@ GA.plugins = function(ga) {
     };
 
     //Pause and play methods
-    o.pause = function() {
+    o.pause = function () {
       o.playing = false;
     };
-    o.play = function() {
+    o.play = function () {
       o.playing = true;
     };
-    
+
     //Return the tween object
     return o;
   };
 
 
-  ga.walkPath = function(
+  ga.walkPath = function (
     sprite,                   //The sprite
     originalPathArray,        //A 2D array of waypoints
     totalFrames,              //The duration, in frames
@@ -1750,7 +1699,7 @@ GA.plugins = function(ga) {
     yoyo,                     //Should the direction reverse?
     delayBetweenSections      //Delay, in milliseconds, between sections
   ) {
-    
+
     //Set defaults
     if (totalFrames === undefined) totalFrames = 300;
     if (type === undefined) type = "smoothstep";
@@ -1765,7 +1714,7 @@ GA.plugins = function(ga) {
     //Figure out the duration, in frames, of each path section by 
     //dividing the `totalFrames` by the length of the `pathArray`
     var frames = totalFrames / pathArray.length;
-    
+
     //Set the current point to 0, which will be the first waypoint
     var currentPoint = 0;
 
@@ -1779,26 +1728,26 @@ GA.plugins = function(ga) {
 
       //Use the `makeTween` function to tween the sprite's
       //x and y position
-      var tween = ga.makeTween([ 
+      var tween = ga.makeTween([
 
         //Create the x axis tween between the first x value in the
         //current point and the x value in the following point
         [
-          sprite, 
-          "x", 
-          pathArray[currentPoint][0], 
-          pathArray[currentPoint + 1][0], 
-          frames, 
+          sprite,
+          "x",
+          pathArray[currentPoint][0],
+          pathArray[currentPoint + 1][0],
+          frames,
           type
         ],
 
         //Create the y axis tween in the same way
         [
-          sprite, 
-          "y", 
-          pathArray[currentPoint][1], 
-          pathArray[currentPoint + 1][1], 
-          frames, 
+          sprite,
+          "y",
+          pathArray[currentPoint][1],
+          pathArray[currentPoint + 1][1],
+          frames,
           type
         ]
       ]);
@@ -1806,7 +1755,7 @@ GA.plugins = function(ga) {
       //When the tween is complete, advance the `currentPoint` by one.
       //Add an optional delay between path segments, and then make the
       //next connecting path
-      tween.onComplete = function() {
+      tween.onComplete = function () {
 
         //Advance to the next point
         currentPoint += 1;
@@ -1814,11 +1763,11 @@ GA.plugins = function(ga) {
         //If the sprite hasn't reached the end of the
         //path, tween the sprite to the next point
         if (currentPoint < pathArray.length - 1) {
-          ga.wait(delayBetweenSections, function() {
+          ga.wait(delayBetweenSections, function () {
             tween = makePath(currentPoint);
           });
-        } 
-        
+        }
+
         //If we've reached the end of the path, optionally
         //loop and yoyo it
         else {
@@ -1830,7 +1779,7 @@ GA.plugins = function(ga) {
             if (yoyo) pathArray.reverse();
 
             //Optionally wait before restarting
-            ga.wait(delayBetweenSections, function() {
+            ga.wait(delayBetweenSections, function () {
 
               //Reset the `currentPoint` to 0 so that we can
               //restart at the first point
@@ -1857,7 +1806,7 @@ GA.plugins = function(ga) {
     return tween;
   };
 
-  ga.walkCurve = function(
+  ga.walkCurve = function (
     sprite,                  //The sprite
     pathArray,               //2D array of Bezier curves
     totalFrames,             //The duration, in frames
@@ -1876,7 +1825,7 @@ GA.plugins = function(ga) {
 
     //Divide the `totalFrames` into sections for each part of the path
     var frames = totalFrames / pathArray.length;
-    
+
     //Set the current curve to 0, which will be the first one
     var currentCurve = 0;
 
@@ -1888,7 +1837,7 @@ GA.plugins = function(ga) {
       //Use the custom `followCurve` function to make
       //a sprite follow a curve
       var tween = ga.followCurve(
-        sprite, 
+        sprite,
         pathArray[currentCurve],
         frames,
         type
@@ -1897,14 +1846,14 @@ GA.plugins = function(ga) {
       //When the tween is complete, advance the `currentCurve` by one.
       //Add an optional delay between path segments, and then make the
       //next path
-      tween.onComplete = function() {
+      tween.onComplete = function () {
         currentCurve += 1;
         if (currentCurve < pathArray.length) {
-          ga.wait(delayBeforeContinue, function() {
+          ga.wait(delayBeforeContinue, function () {
             tween = makePath(currentCurve);
           });
-        } 
-        
+        }
+
         //If we've reached the end of the path, optionally
         //loop and reverse it
         else {
@@ -1915,14 +1864,14 @@ GA.plugins = function(ga) {
               pathArray.reverse();
 
               //Reverse the order of the points in each curve
-              pathArray.forEach(function(curveArray) {
+              pathArray.forEach(function (curveArray) {
                 curveArray.reverse();
               });
             }
 
             //After an optional delay, reset the sprite to the
             //beginning of the path and make the next new path
-            ga.wait(delayBeforeContinue, function() {
+            ga.wait(delayBeforeContinue, function () {
               currentCurve = 0;
               sprite.x = pathArray[0][0];
               sprite.y = pathArray[0][1];
@@ -1935,7 +1884,7 @@ GA.plugins = function(ga) {
       //Return the path tween to the main function
       return tween;
     }
-    
+
     //Pass the tween back to the main program
     return tween;
   };
@@ -1948,9 +1897,9 @@ GA.plugins = function(ga) {
 
   //### shoot
 
-  ga.shoot = function(
-      shooter, angle, offsetFromCenter,
-      bulletSpeed, bulletArray, bulletSprite) {
+  ga.shoot = function (
+    shooter, angle, offsetFromCenter,
+    bulletSpeed, bulletArray, bulletSprite) {
     //Make a new sprite using the user-supplied `bulletSprite` function
     var bullet = bulletSprite();
 
@@ -1997,12 +1946,12 @@ GA.plugins = function(ga) {
           );
   */
 
-  ga.grid = function(
-      columns, rows, cellWidth, cellHeight,
-      centerCell, xOffset, yOffset,
-      makeSprite,
-      extra
-    ){
+  ga.grid = function (
+    columns, rows, cellWidth, cellHeight,
+    centerCell, xOffset, yOffset,
+    makeSprite,
+    extra
+  ) {
     //Set the defaults
     if (columns === undefined) columns = 0;
     if (rows === undefined) rows = 0;
@@ -2011,7 +1960,7 @@ GA.plugins = function(ga) {
     if (xOffset === undefined) xOffset = 0;
     if (yOffset === undefined) yOffset = 0;
     if (centerCell === undefined) centerCell = false;
-    
+
     /*
     if (!columns && columns !== 0) columns = 0;
     if (!rows && rows !== 0) rows = 0;
@@ -2026,11 +1975,11 @@ GA.plugins = function(ga) {
     var container = ga.group();
 
     //The `create` method
-    container.createGrid = function() {
+    container.createGrid = function () {
       var length = columns * rows;
-      for(var i = 0; i < length; i++) {
+      for (var i = 0; i < length; i++) {
         var x = ((i % columns) * cellWidth),
-            y = (Math.floor(i / columns) * cellHeight);
+          y = (Math.floor(i / columns) * cellHeight);
 
         //Use the `makeSprite` method supplied in the constructor
         //to make a sprite for the grid cell
@@ -2043,7 +1992,7 @@ GA.plugins = function(ga) {
           sprite.y = y + yOffset;
         }
         else {
-          sprite.x = x + (cellWidth / 2 ) - sprite.halfWidth + xOffset;
+          sprite.x = x + (cellWidth / 2) - sprite.halfWidth + xOffset;
           sprite.y = y + (cellHeight / 2) - sprite.halfHeight + yOffset;
         }
 
@@ -2109,7 +2058,7 @@ GA.plugins = function(ga) {
     percentage: null,
     assets: null,
     initialized: false,
-    create: function(canvas, assets) {
+    create: function (canvas, assets) {
       if (!this.initialized) {
 
         //Store a reference to the `assets` object
@@ -2141,7 +2090,7 @@ GA.plugins = function(ga) {
         this.initialized = true;
       }
     },
-    update: function() {
+    update: function () {
 
       //Change the width of the blue `frontBar` to match the
       //ratio of assets that have loaded. Adding `+1` to
@@ -2155,7 +2104,7 @@ GA.plugins = function(ga) {
       //Display the percentage
       this.percentage.content = Math.floor((ratio) * 100) + "%";
     },
-    remove: function() {
+    remove: function () {
 
       //Remove the progress bar
       ga.remove(this.frontBar);
@@ -2228,19 +2177,19 @@ GA.plugins = function(ga) {
   the particle and finely adjusting each parameter, you can use this 
   all-purpose `particleEffect` function to simulate everything from liquid to fire. 
   */
-  
+
   //First, you need an array to store the particles.
   ga.particles = [];
 
-  ga.particleEffect = function(
-    x, 
-    y, 
+  ga.particleEffect = function (
+    x,
+    y,
     spriteFunction,
     numberOfParticles,
     gravity,
     randomSpacing,
     minAngle, maxAngle,
-    minSize, maxSize, 
+    minSize, maxSize,
     minSpeed, maxSpeed,
     minScaleSpeed, maxScaleSpeed,
     minAlphaSpeed, maxAlphaSpeed,
@@ -2248,27 +2197,27 @@ GA.plugins = function(ga) {
   ) {
 
     if (x === undefined) x = 0;
-    if (y === undefined) y = 0; 
-    if (spriteFunction === undefined) spriteFunction = function(){return ga.circle(10, "red")};
+    if (y === undefined) y = 0;
+    if (spriteFunction === undefined) spriteFunction = function () { return ga.circle(10, "red") };
     if (numberOfParticles === undefined) numberOfParticles = 10;
     if (gravity === undefined) gravity = 0;
     if (randomSpacing === undefined) randomSpacing = true;
-    if (minAngle === undefined) minAngle = 0; 
+    if (minAngle === undefined) minAngle = 0;
     if (maxAngle === undefined) maxAngle = 6.28;
-    if (minSize === undefined) minSize = 4; 
-    if (maxSize === undefined) maxSize = 16; 
-    if (minSpeed === undefined) minSpeed = 0.1; 
-    if (maxSpeed === undefined) maxSpeed = 1; 
-    if (minScaleSpeed === undefined) minScaleSpeed = 0.01; 
+    if (minSize === undefined) minSize = 4;
+    if (maxSize === undefined) maxSize = 16;
+    if (minSpeed === undefined) minSpeed = 0.1;
+    if (maxSpeed === undefined) maxSpeed = 1;
+    if (minScaleSpeed === undefined) minScaleSpeed = 0.01;
     if (maxScaleSpeed === undefined) maxScaleSpeed = 0.05;
-    if (minAlphaSpeed === undefined) minAlphaSpeed = 0.02; 
+    if (minAlphaSpeed === undefined) minAlphaSpeed = 0.02;
     if (maxAlphaSpeed === undefined) maxAlphaSpeed = 0.02;
-    if (minRotationSpeed === undefined) minRotationSpeed = 0.01; 
+    if (minRotationSpeed === undefined) minRotationSpeed = 0.01;
     if (maxRotationSpeed === undefined) maxRotationSpeed = 0.03;
-    
+
     //`randomFloat` and `randomInt` helper functions
-    var randomFloat = function(min, max){return min + Math.random() * (max - min)},
-        randomInt = function(min, max){return Math.floor(Math.random() * (max - min + 1)) + min};
+    var randomFloat = function (min, max) { return min + Math.random() * (max - min) },
+      randomInt = function (min, max) { return Math.floor(Math.random() * (max - min + 1)) + min };
 
     //An array to store the angles
     var angles = [];
@@ -2281,15 +2230,15 @@ GA.plugins = function(ga) {
 
     //Create an angle value for each particle and push that
     //value into the `angles` array
-    for(var i = 0; i < numberOfParticles; i++) {
+    for (var i = 0; i < numberOfParticles; i++) {
 
       //If `randomSpacing` is `true`, give the particle any angle
       //value between `minAngle` and `maxAngle`
       if (randomSpacing) {
         angle = randomFloat(minAngle, maxAngle);
         angles.push(angle);
-      } 
-      
+      }
+
       //If `randomSpacing` is `false`, space each particle evenly,
       //starting with the `minAngle` and ending with the `maxAngle`
       else {
@@ -2300,7 +2249,7 @@ GA.plugins = function(ga) {
     }
 
     //Make a particle for each angle
-    angles.forEach(function(angle){
+    angles.forEach(function (angle) {
       makeParticle(angle)
     });
 
@@ -2336,7 +2285,7 @@ GA.plugins = function(ga) {
 
       //The particle's `update` method is called on each frame of the
       //game loop
-      particle.updateParticle = function() {
+      particle.updateParticle = function () {
 
         //Add gravity
         particle.vy += gravity;
@@ -2375,11 +2324,11 @@ GA.plugins = function(ga) {
 
   //`updateParticles` loops through all the sprites in `ga.particles`
   //and runs their `updateParticles` functions.
-  ga.updateParticles = function() {
-    
+  ga.updateParticles = function () {
+
     //Update all the particles in the game.
     if (ga.particles.length > 0) {
-      for(var i = ga.particles.length - 1; i >= 0; i--) {
+      for (var i = ga.particles.length - 1; i >= 0; i--) {
         var particle = ga.particles[i];
         particle.updateParticle();
       }
@@ -2390,7 +2339,7 @@ GA.plugins = function(ga) {
   //it runs inside Ga's game loop. (See the `ga.update` method in the 
   //`ga.js` file to see how this works.
   ga.updateFunctions.push(ga.updateParticles);
-  
+
   /*
   emitter
   -------
@@ -2437,9 +2386,9 @@ GA.plugins = function(ga) {
       };
   */
 
-  ga.emitter = function(interval, particleFunction) {
+  ga.emitter = function (interval, particleFunction) {
     var emitter = {},
-        timerInterval = undefined;
+      timerInterval = undefined;
 
     emitter.playing = false;
 
@@ -2486,7 +2435,7 @@ GA.plugins = function(ga) {
   
   */
 
-  ga.tilingSprite = function(width, height, source, x, y) {
+  ga.tilingSprite = function (width, height, source, x, y) {
 
     //Set the defaults.
     if (x === undefined) x = 0;
@@ -2497,7 +2446,7 @@ GA.plugins = function(ga) {
 
     //If the source is a texture atlas frame, use its
     //`frame.w` and `frame.h` properties.
-    if(ga.assets[source].frame) {
+    if (ga.assets[source].frame) {
       tileWidth = ga.assets[source].frame.w;
       tileHeight = ga.assets[source].frame.h;
     }
@@ -2523,8 +2472,8 @@ GA.plugins = function(ga) {
     //calculate the number of tile columns.
     if (width >= tileWidth) {
       columns = Math.round(width / tileWidth) + 1;
-    } 
-    
+    }
+
     //If the rectangle's width is less than the width of the
     //tile, set the columns to 2, which is the minimum.
     else {
@@ -2536,14 +2485,14 @@ GA.plugins = function(ga) {
     if (height >= tileHeight) {
       rows = Math.round(height / tileHeight) + 1;
     } else {
-      rows = 2; 
+      rows = 2;
     }
 
     //Create a grid of sprites that's just one sprite larger
     //than the `totalWidth` and `totalHeight`.
     var tileGrid = ga.grid(
       columns, rows, tileWidth, tileHeight, false, 0, 0,
-      function(){
+      function () {
 
         //Make a sprite from the supplied `source`.
         var tile = ga.sprite(source);
@@ -2573,19 +2522,19 @@ GA.plugins = function(ga) {
     //so that you can scroll the tiling background.
     Object.defineProperties(container, {
       tileX: {
-        get: function() {
+        get: function () {
           return tileGrid._tileX;
         },
 
-        set: function(value) {
+        set: function (value) {
 
           //Loop through all of the grid's child sprites.
-          tileGrid.children.forEach(function(child){
+          tileGrid.children.forEach(function (child) {
 
             //Figure out the difference between the new position
             //and the previous position.
             var difference = value - tileGrid._tileX;
-            
+
             //Offset the child sprite by the difference.
             child.x += difference;
 
@@ -2610,13 +2559,13 @@ GA.plugins = function(ga) {
         enumerable: true, configurable: true
       },
       tileY: {
-        get: function() {
+        get: function () {
           return tileGrid._tileY;
         },
 
         //Follow the same format to wrap sprites on the y axis.
-        set: function(value) {
-          tileGrid.children.forEach(function(child){
+        set: function (value) {
+          tileGrid.children.forEach(function (child) {
             var difference = value - tileGrid._tileY;
             child.y += difference;
             if (child.y > (rows - 1) * tileHeight) child.y = 0 - tileHeight + difference;
@@ -2631,120 +2580,6 @@ GA.plugins = function(ga) {
     //Return the rectangle container.
     return container;
   }
-  
-  /*
-  ### burst - DEPRICATED! DO NOT USE! Use `particleEffect` and `emitter` instead.
-  A versatile particle explosion effect. It has lots of little parameters to tweak for maaking
-  all sorts of particle burst effects. Here's an example of how to use it:
-
-    g.burst(
-      sprite.x, sprite.y,   //x and y
-      function(){           //A function that returns the sprite to use for the particle
-        return g.sprite(g.frame("images/tileset.png", 112, 0, 16, 16));
-      },
-      g.randomInt(5, 10),      //numberOfParticles
-      4, 16,                //size
-      3, 0.5,               //speed
-      0.01, 0.05,           //scale speed
-      0.01, 0.02,           //alpha speed
-      0.01, 0.03            //rotation speed
-    );
-
-  */
-
-  ga.burst = function(
-    x, y, 
-    spriteFunction,
-    numberOfParticles, 
-    minSize, maxSize, 
-    minSpeed, maxSpeed,
-    minScaleSpeed, maxScaleSpeed,
-    minAlphaSpeed, maxAlphaSpeed,
-    minRotationSpeed, maxRotationSpeed
-  ) {
-
-    //Assign defaults
-    x = x || 0;
-    y = y || 0;
-    spriteFunction = spriteFunction || function(){return ga.circle(10, "red")}
-    minSize = minSize || 4;
-    maxSize = maxSize || 16;
-    numberOfParticles = numberOfParticles || 10;
-    minSpeed = minSpeed || 0.1;
-    maxSpeed = maxSpeed || 1;
-    minScaleSpeed = minScaleSpeed || 0.01;
-    maxScaleSpeed = maxScaleSpeed || 0.05;
-    minAlphaSpeed = minAlphaSpeed || 0.02;
-    maxAlphaSpeed = maxAlphaSpeed || 0.02;
-    minRotationSpeed = minRotationSpeed || 0.01;
-    maxRotationSpeed = maxRotationSpeed || 0.03;
-
-    //Create an angle value between 0 and 360 for each particle
-    var angle;
-    for (angle = 0; angle < 360; angle += Math.round(360 / numberOfParticles)) {
-      makeParticle();
-    }
-
-    //Make the particle
-    function makeParticle() {
-
-      //Create the particle using the supplied sprite function
-      var particle = spriteFunction();
-
-      //Set the x and y position
-      particle.x = x - particle.halfWidth;
-      particle.y = y - particle.halfHeight;
-
-      //Set a random width and height
-      var size = ga.randomFloat(minSize, maxSize);
-      particle.width = size;
-      particle.height = size;
-
-      //Set a random speed to change the scale, alpha and rotation
-      particle.scaleSpeed = ga.randomFloat(minScaleSpeed, maxScaleSpeed);
-      particle.alphaSpeed = ga.randomFloat(minAlphaSpeed, maxAlphaSpeed);
-      particle.rotationSpeed = ga.randomFloat(minRotationSpeed, maxRotationSpeed);
-
-      //Set a random velocity at which the particle should move
-      var speed = ga.randomFloat(minSpeed, maxSpeed);
-      particle.vx = speed * Math.cos(angle * Math.PI / 180);
-      particle.vy = speed * Math.sin(angle * Math.PI / 180);
-
-      //The particle's `update` method is called on each frame of the
-      //game loop
-      particle.update = function(){
-
-        //Move the particle
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-
-        //Change the particle's `scale`
-        if (particle.scaleX - particle.scaleSpeed > 0) {
-          particle.scaleX -= particle.scaleSpeed;
-        }
-        if (particle.scaleY - particle.scaleSpeed > 0) {
-          particle.scaleY -= particle.scaleSpeed;
-        }
-
-        //Change the particle's rotation
-        particle.rotation += particle.rotationSpeed;
-
-        //Change the particle's `alpha`
-        particle.alpha -= particle.alphaSpeed;
-
-        //Remove the particle if its `alpha` reaches zero
-        if (particle.alpha <= 0) {
-          ga.remove(particle);
-          ga.particles.splice(ga.particles.indexOf(particle), 1);
-        }
-      };
-
-      //Push the particles into ga's `particles` array
-      //The `ga.particles` array is updated by the game loop each
-      //frame
-      ga.particles.push(particle);
-    }
-  }
 
 
   /*
@@ -2757,12 +2592,12 @@ GA.plugins = function(ga) {
   */
 
   //#### outsideBounds
-  ga.outsideBounds = function(s, bounds, extra){
+  ga.outsideBounds = function (s, bounds, extra) {
 
     var x = bounds.x,
-        y = bounds.y,
-        width = bounds.width,
-        height = bounds.height;
+      y = bounds.y,
+      width = bounds.width,
+      height = bounds.height;
 
     //The `collision` object is used to store which
     //side of the containing rectangle the sprite hits
@@ -2794,12 +2629,12 @@ GA.plugins = function(ga) {
   };
 
   //#### contain
-  ga.contain = function(s, bounds, bounce, extra){
+  ga.contain = function (s, bounds, bounce, extra) {
 
     var x = bounds.x,
-        y = bounds.y,
-        width = bounds.width,
-        height = bounds.height;
+      y = bounds.y,
+      width = bounds.width,
+      height = bounds.height;
 
     //Set `bounce` to `false` by default
     bounce = bounce || false;
@@ -2816,7 +2651,7 @@ GA.plugins = function(ga) {
 
       //If the sprite has `mass`, let the mass
       //affect the sprite's velocity
-      if(s.mass) s.vx /= s.mass;
+      if (s.mass) s.vx /= s.mass;
       s.x = x;
       collision = "left";
     }
@@ -2824,7 +2659,7 @@ GA.plugins = function(ga) {
     //Top
     if (s.y < y) {
       if (bounce) s.vy *= -1;
-      if(s.mass) s.vy /= s.mass;
+      if (s.mass) s.vy /= s.mass;
       s.y = y;
       collision = "top";
     }
@@ -2832,7 +2667,7 @@ GA.plugins = function(ga) {
     //Right
     if (s.x + s.width > width) {
       if (bounce) s.vx *= -1;
-      if(s.mass) s.vx /= s.mass;
+      if (s.mass) s.vx /= s.mass;
       s.x = width - s.width;
       collision = "right";
     }
@@ -2840,7 +2675,7 @@ GA.plugins = function(ga) {
     //Bottom
     if (s.y + s.height > height) {
       if (bounce) s.vy *= -1;
-      if(s.mass) s.vy /= s.mass;
+      if (s.mass) s.vy /= s.mass;
       s.y = height - s.height;
       collision = "bottom";
     }
@@ -2869,7 +2704,7 @@ GA.plugins = function(ga) {
   the shape as a circle.
   */
 
-  ga.hitTestPoint = function(point, sprite) {
+  ga.hitTestPoint = function (point, sprite) {
 
     var shape, left, right, top, bottom, vx, vy, magnitude, hit;
 
@@ -2900,8 +2735,8 @@ GA.plugins = function(ga) {
       //Find the distance between the point and the
       //center of the circle
       vx = point.x - sprite.centerX,
-      vy = point.y - sprite.centerY,
-      magnitude = Math.sqrt(vx * vx + vy * vy);
+        vy = point.y - sprite.centerY,
+        magnitude = Math.sqrt(vx * vx + vy * vy);
 
       //The point is intersecting the circle if the magnitude
       //(distance) is less than the circle's radius
@@ -2921,14 +2756,14 @@ GA.plugins = function(ga) {
   b. A sprite object with `centerX`, `centerY` and `radius`.
   */
 
-  ga.hitTestCircle = function(c1, c2, global) {
+  ga.hitTestCircle = function (c1, c2, global) {
     var vx, vy, magnitude, totalRadii, hit;
 
     //Set `global` to a default value of `false`
-    if(global === undefined) global = false;
+    if (global === undefined) global = false;
 
     //Calculate the vector between the circles’ center points
-    if(global) {
+    if (global) {
 
       //Use global coordinates
       vx = (c2.gx + c2.radius) - (c1.gx + c1.radius);
@@ -2965,11 +2800,11 @@ GA.plugins = function(ga) {
 
   */
 
-  ga.hitTestRectangle = function(r1, r2, global) {
+  ga.hitTestRectangle = function (r1, r2, global) {
     var hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
 
     //Set `global` to a default value of `false`
-    if(global === undefined) global = false;
+    if (global === undefined) global = false;
 
     //A variable to determine whether there's a collision
     hit = false;
@@ -3010,23 +2845,23 @@ GA.plugins = function(ga) {
     return hit;
   };
 
- /*
-  hitTestCircleRectangle
-  ----------------
+  /*
+   hitTestCircleRectangle
+   ----------------
+ 
+   Use it to find out if a circular shape is touching a rectangular shape
+   Parameters: 
+   a. A sprite object with `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
+   b. A sprite object with `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
+ 
+   */
 
-  Use it to find out if a circular shape is touching a rectangular shape
-  Parameters: 
-  a. A sprite object with `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
-  b. A sprite object with `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
-
-  */
-
-  ga.hitTestCircleRectangle = function(c1, r1, global) {
+  ga.hitTestCircleRectangle = function (c1, r1, global) {
 
     var region, collision, c1x, c1y, r1x, r1y;
-    
+
     //Set `global` to a default value of `false`
-    if(global === undefined) global = false;
+    if (global === undefined) global = false;
 
     //Use either global or local coordinates
     if (global) {
@@ -3050,7 +2885,7 @@ GA.plugins = function(ga) {
       //the text in favor of a rectangle vs. rectangle collision test.
       //This gives a more natural looking result with corner collisions
       //when physics is added)
-      if(c1x < r1x - 1 - r1.halfWidth) {
+      if (c1x < r1x - 1 - r1.halfWidth) {
         region = "topLeft";
       }
       else if (c1x > r1x + 1 + r1.halfWidth) {
@@ -3092,13 +2927,13 @@ GA.plugins = function(ga) {
     //Is this the circle touching the flat sides
     //of the rectangle?
     if (region === "topMiddle"
-    || region === "bottomMiddle"
-    || region === "leftMiddle"
-    || region === "rightMiddle") {
+      || region === "bottomMiddle"
+      || region === "leftMiddle"
+      || region === "rightMiddle") {
 
       //Yes, it is, so do a standard rectangle vs. rectangle collision test
-      collision = ga.hitTestRectangle(c1, r1, global);  
-    } 
+      collision = ga.hitTestRectangle(c1, r1, global);
+    }
 
     //The circle is touching one of the corners, so do a
     //circle vs. point collision test
@@ -3106,11 +2941,11 @@ GA.plugins = function(ga) {
       var point = {};
 
       switch (region) {
-        case "topLeft": 
+        case "topLeft":
           point.x = r1x;
           point.y = r1y;
           break;
-        
+
         case "topRight":
           point.x = r1x + r1.width;
           point.y = r1y;
@@ -3125,7 +2960,7 @@ GA.plugins = function(ga) {
           point.x = r1x + r1.width;
           point.y = r1y + r1.height;
       }
-      
+
       //Check for a collision between the circle and the point
       collision = ga.hitTestCirclePoint(c1, point, global);
     }
@@ -3137,7 +2972,7 @@ GA.plugins = function(ga) {
     } else {
       return collision;
     }
-  }; 
+  };
 
   /*
   hitTestCirclePoint
@@ -3150,10 +2985,10 @@ GA.plugins = function(ga) {
 
   */
 
-  ga.hitTestCirclePoint = function(c1, point, global) {
-    
+  ga.hitTestCirclePoint = function (c1, point, global) {
+
     //Set `global` to a default value of `false`
-    if(global === undefined) global = false;
+    if (global === undefined) global = false;
 
     //A point is just a circle with a diameter of
     //1 pixel, so we can cheat. All we need to do is an ordinary circle vs. circle
@@ -3165,7 +3000,7 @@ GA.plugins = function(ga) {
     point.centerY = point.y;
     point.gx = point.x;
     point.gy = point.y;
-    return ga.hitTestCircle(c1, point, global); 
+    return ga.hitTestCircle(c1, point, global);
   };
 
   /*
@@ -3180,18 +3015,18 @@ GA.plugins = function(ga) {
   should bounce off the second sprite.
   */
 
-  ga.rectangleCollision = function(r1, r2, bounce, global) {
+  ga.rectangleCollision = function (r1, r2, bounce, global) {
     var collision, combinedHalfWidths, combinedHalfHeights,
-        overlapX, overlapY, vx, vy;
+      overlapX, overlapY, vx, vy;
 
     //Set `bounce` to a default value of `true`
-    if(bounce === undefined) bounce = false;
+    if (bounce === undefined) bounce = false;
 
     //Set `global` to a default value of `false`
-    if(global === undefined) global = false;
+    if (global === undefined) global = false;
 
     //Calculate the distance vector
-    if(global) {
+    if (global) {
       vx = (r1.gx + r1.halfWidth) - (r2.gx + r2.halfWidth);
       vy = (r1.gy + r1.halfHeight) - (r2.gy + r2.halfHeight);
     } else {
@@ -3309,20 +3144,20 @@ GA.plugins = function(ga) {
 
   */
 
-  ga.circleCollision = function(c1, c2, bounce, global) {
+  ga.circleCollision = function (c1, c2, bounce, global) {
     var magnitude, combinedRadii, overlap,
-        vx, vy, dx, dy, s = {},
-        hit = false;
+      vx, vy, dx, dy, s = {},
+      hit = false;
 
     //Set `bounce` to a default value of `true`
-    if(bounce === undefined) bounce = true;
+    if (bounce === undefined) bounce = true;
 
     //Set `global` to a default value of `false`
-    if(global === undefined) global = false;
+    if (global === undefined) global = false;
 
     //Calculate the vector between the circles’ center points
 
-    if(global) {
+    if (global) {
 
       //Use global coordinates
       vx = (c2.gx + c2.radius) - (c1.gx + c1.radius);
@@ -3404,22 +3239,22 @@ GA.plugins = function(ga) {
 
   */
 
-  ga.movingCircleCollision = function(c1, c2, global) {
+  ga.movingCircleCollision = function (c1, c2, global) {
     var combinedRadii, overlap, xSide, ySide,
-        //`s` refers to the collision surface
-        s = {},
-        p1A = {}, p1B = {}, p2A = {}, p2B = {},
-        hit = false;
+      //`s` refers to the collision surface
+      s = {},
+      p1A = {}, p1B = {}, p2A = {}, p2B = {},
+      hit = false;
 
     //Apply mass, if the circles have mass properties
     c1.mass = c1.mass || 1;
     c2.mass = c2.mass || 1;
 
     //Set `global` to a default value of `false`
-    if(global === undefined) global = false;
+    if (global === undefined) global = false;
 
     //Calculate the vector between the circles’ center points
-    if(global) {
+    if (global) {
 
       //Use global coordinates
       s.vx = (c2.gx + c2.radius) - (c1.gx + c1.radius);
@@ -3541,10 +3376,10 @@ GA.plugins = function(ga) {
   all the other circles in an array, using `movingCircleCollision` (above)
   */
 
-  ga.multipleCircleCollision = function(arrayOfCircles, global) {
+  ga.multipleCircleCollision = function (arrayOfCircles, global) {
 
     //Set `global` to a default value of `false`
-    if(global === undefined) global = false;
+    if (global === undefined) global = false;
 
     //marble collisions
     for (var i = 0; i < arrayOfCircles.length; i++) {
@@ -3575,11 +3410,11 @@ GA.plugins = function(ga) {
 
   */
 
-  ga.circlePointCollision = function(c1, point, bounce, global) {
-    
+  ga.circlePointCollision = function (c1, point, bounce, global) {
+
     //Set `global` and `bounce` to a default values of `false`
-    if(global === undefined) global = false;
-    if(bounce === undefined) bounce = false;
+    if (global === undefined) global = false;
+    if (bounce === undefined) bounce = false;
 
     //A point is just a circle with a diameter of
     //1 pixel, so we can cheat. All we need to do is an ordinary circle vs. circle
@@ -3591,7 +3426,7 @@ GA.plugins = function(ga) {
     point.centerY = point.y;
     point.gx = point.x;
     point.gy = point.y;
-    return ga.circleCollision(c1, point, bounce, global); 
+    return ga.circleCollision(c1, point, bounce, global);
   }
 
   /*
@@ -3605,13 +3440,13 @@ GA.plugins = function(ga) {
 
   */
 
-  ga.circleRectangleCollision = function(c1, r1, bounce, global) {
+  ga.circleRectangleCollision = function (c1, r1, bounce, global) {
 
     var region, collision, c1x, c1y, r1x, r1y;
-    
+
     //Set `global` and `bounce` to a default values of `false`
-    if(global === undefined) global = false;
-    if(bounce === undefined) bounce = false;
+    if (global === undefined) global = false;
+    if (bounce === undefined) bounce = false;
 
     //Use either the global or local coordinates
     if (global) {
@@ -3627,11 +3462,11 @@ GA.plugins = function(ga) {
     }
 
     //Is the circle above the rectangle's top edge?
-    if(c1y < r1y - r1.halfHeight) {
+    if (c1y < r1y - r1.halfHeight) {
 
       //If it is, we need to check whether it's in the 
       //top left, top center or top right
-      if(c1x < r1x - 1 - r1.halfWidth) {
+      if (c1x < r1x - 1 - r1.halfWidth) {
         region = "topLeft";
       }
       else if (c1x > r1x + 1 + r1.halfWidth) {
@@ -3673,13 +3508,13 @@ GA.plugins = function(ga) {
     //Is this the circle touching the flat sides
     //of the rectangle?
     if (region === "topMiddle"
-    || region === "bottomMiddle"
-    || region === "leftMiddle"
-    || region === "rightMiddle") {
+      || region === "bottomMiddle"
+      || region === "leftMiddle"
+      || region === "rightMiddle") {
 
       //Yes, it is, so do a standard rectangle vs. rectangle collision test
-      collision = ga.rectangleCollision(c1, r1, bounce, global);  
-    } 
+      collision = ga.rectangleCollision(c1, r1, bounce, global);
+    }
 
     //The circle is touching one of the corners, so do a
     //circle vs. point collision test
@@ -3687,11 +3522,11 @@ GA.plugins = function(ga) {
       var point = {};
 
       switch (region) {
-        case "topLeft": 
+        case "topLeft":
           point.x = r1x;
           point.y = r1y;
           break;
-        
+
         case "topRight":
           point.x = r1x + r1.width;
           point.y = r1y;
@@ -3706,7 +3541,7 @@ GA.plugins = function(ga) {
           point.x = r1x + r1.width;
           point.y = r1y + r1.height;
       }
-      
+
       //Check for a collision between the circle and the point
       collision = ga.circlePointCollision(c1, point, bounce, global);
     }
@@ -3734,10 +3569,10 @@ GA.plugins = function(ga) {
 
   function bounceOffSurface(o, s) {
     var dp1, dp2,
-        p1 = {},
-        p2 = {},
-        bounce = {},
-        mass = o.mass || 1;
+      p1 = {},
+      p2 = {},
+      bounce = {},
+      mass = o.mass || 1;
 
     //1. Calculate the collision surface's properties
     //Find the surface vector's left normal
@@ -3788,7 +3623,7 @@ GA.plugins = function(ga) {
   automatically chooses the correct collision method.
   */
 
-  ga.hit = function(a, b, react, bounce, global, extra) {
+  ga.hit = function (a, b, react, bounce, global, extra) {
     var collision;
 
     //Set the defaults
@@ -3822,21 +3657,21 @@ GA.plugins = function(ga) {
       //(We have to check again if this function was called from
       //`spriteVsArray`)
       var aIsASprite = a.parent !== undefined,
-          bIsASprite = b.parent !== undefined;
+        bIsASprite = b.parent !== undefined;
 
       if (aIsASprite && bIsASprite) {
 
         //Yes, but what kind of sprites?
-        if(a.diameter && b.diameter) {
+        if (a.diameter && b.diameter) {
 
           //They're circles
           return circleVsCircle(a, b);
-        } 
+        }
         else if (a.diameter && !b.diameter) {
 
           //The first one is a circle and the second is a rectangle
           return circleVsRectangle(a, b);
-        } 
+        }
         else {
 
           //They're rectangles
@@ -3878,7 +3713,7 @@ GA.plugins = function(ga) {
 
       //If the circles shouldn't react to the collision,
       //just test to see if they're touching
-      if(!react) {
+      if (!react) {
         return ga.hitTestCircle(a, b, global);
       }
 
@@ -3905,7 +3740,7 @@ GA.plugins = function(ga) {
 
       //If the rectangles shouldn't react to the collision, just
       //test to see if they're touching
-      if(!react) {
+      if (!react) {
         return ga.hitTestRectangle(a, b, global);
       }
       //Yes
@@ -3913,7 +3748,7 @@ GA.plugins = function(ga) {
 
         //Should they bounce apart?
         //Yes
-        if(bounce) {
+        if (bounce) {
           return ga.rectangleCollision(a, b, true, global);
         }
         //No
@@ -3927,9 +3762,9 @@ GA.plugins = function(ga) {
 
       //If the rectangles shouldn't react to the collision, just
       //test to see if they're touching
-      if(!react) {
+      if (!react) {
         return ga.hitTestCircleRectangle(a, b, global);
-      } 
+      }
       else {
         return ga.circleRectangleCollision(a, b, bounce, global);
       }
@@ -3943,7 +3778,7 @@ GA.plugins = function(ga) {
   //converts a sprite's x and y position to an array index number.
   //It returns a single index value that tells you the map array
   //index number that the sprite is in
-  ga.getIndex = function(x, y, tilewidth, tileheight, mapWidthInTiles) {
+  ga.getIndex = function (x, y, tilewidth, tileheight, mapWidthInTiles) {
     var index = {};
 
     //Convert pixel coordinates to map index coordinates
@@ -3968,7 +3803,7 @@ GA.plugins = function(ga) {
   The `world` object requires these properties:
   `x`, `y`, `tilewidth`, `tileheight` and `widthInTiles`
   */
-  ga.getTile = function(index, mapArray, world) {
+  ga.getTile = function (index, mapArray, world) {
     var tile = {}
     tile.gid = mapArray[index];
     tile.width = world.tilewidth;
@@ -3995,7 +3830,7 @@ GA.plugins = function(ga) {
   and the width of the map array.
   */
 
-  ga.surroundingCells = function(index, widthInTiles) {
+  ga.surroundingCells = function (index, widthInTiles) {
     return [
       index - widthInTiles - 1,
       index - widthInTiles,
@@ -4022,21 +3857,21 @@ GA.plugins = function(ga) {
 
   */
 
-  ga.getPoints = function(s) {
+  ga.getPoints = function (s) {
     var ca = s.collisionArea;
     if (ca !== undefined) {
       return {
-        topLeft: {x: s.x + ca.x, y: s.y + ca.y},
-        topRight: {x: s.x + ca.x + ca.width, y: s.y + ca.y},
-        bottomLeft: {x: s.x + ca.x, y: s.y + ca.y + ca.height},
-        bottomRight: {x: s.x + ca.x + ca.width, y: s.y + ca.y + ca.height}
+        topLeft: { x: s.x + ca.x, y: s.y + ca.y },
+        topRight: { x: s.x + ca.x + ca.width, y: s.y + ca.y },
+        bottomLeft: { x: s.x + ca.x, y: s.y + ca.y + ca.height },
+        bottomRight: { x: s.x + ca.x + ca.width, y: s.y + ca.y + ca.height }
       };
     } else {
       return {
-        topLeft: {x: s.x, y: s.y},
-        topRight: {x: s.x + s.width - 1, y: s.y},
-        bottomLeft: {x: s.x, y: s.y + s.height - 1},
-        bottomRight: {x: s.x + s.width - 1, y: s.y + s.height - 1}
+        topLeft: { x: s.x, y: s.y },
+        topRight: { x: s.x + s.width - 1, y: s.y },
+        bottomLeft: { x: s.x, y: s.y + s.height - 1 },
+        bottomRight: { x: s.x + s.width - 1, y: s.y + s.height - 1 }
       };
     }
   };
@@ -4057,7 +3892,7 @@ GA.plugins = function(ga) {
   `tileheight`, `tilewidth`, `widthInTiles`.
   */
 
-  ga.hitTestTile = function(sprite, mapArray, gidToCheck, world, pointsToCheck) {
+  ga.hitTestTile = function (sprite, mapArray, gidToCheck, world, pointsToCheck) {
 
     //Assign "some" as the default value for `pointsToCheck`
     pointsToCheck = pointsToCheck || "some";
@@ -4070,7 +3905,7 @@ GA.plugins = function(ga) {
     switch (pointsToCheck) {
       case "center":
         //`hit` will be true only if the center point is touching
-        var point = {center: {x: sprite.centerX, y: sprite.centerY}};
+        var point = { center: { x: sprite.centerX, y: sprite.centerY } };
         sprite.collisionPoints = point;
         collision.hit = Object.keys(sprite.collisionPoints).some(checkPoints);
         break;
@@ -4140,21 +3975,21 @@ GA.plugins = function(ga) {
   child sprites on that layer.
   */
 
-  ga.updateMap = function(mapArray, spritesToUpdate, world) {
+  ga.updateMap = function (mapArray, spritesToUpdate, world) {
 
     //First create a map a new array filled with zeros.
     //The new map array will be exactly the same size as the original
-    var newMapArray = mapArray.map(function(gid) {
+    var newMapArray = mapArray.map(function (gid) {
       gid = 0;
       return gid;
     });
 
     //Is `spriteToUpdate` an array of sprites?
-    if(spritesToUpdate instanceof Array) {
+    if (spritesToUpdate instanceof Array) {
 
       //Get the index number of each sprite in the `spritesToUpdate` array
       //and add the sprite's `gid` to the matching index on the map
-      spritesToUpdate.forEach(function(sprite) {
+      spritesToUpdate.forEach(function (sprite) {
 
         //Find the new index number
         sprite.index = ga.getIndex(
@@ -4191,7 +4026,7 @@ GA.plugins = function(ga) {
 
   //### fourKeyController
 
-  ga.fourKeyController = function(s, speed, up, right, down, left) {
+  ga.fourKeyController = function (s, speed, up, right, down, left) {
 
     //Create a `direction` property on the sprite
     s.direction = "";
@@ -4203,42 +4038,42 @@ GA.plugins = function(ga) {
     downArrow = ga.keyboard(down);
 
     //Assign key `press` and release methods
-    leftArrow.press = function() {
+    leftArrow.press = function () {
       s.vx = -speed;
       s.vy = 0;
       s.direction = "left";
     };
-    leftArrow.release = function() {
+    leftArrow.release = function () {
       if (!rightArrow.isDown && s.vy === 0) {
         s.vx = 0;
       }
     };
-    upArrow.press = function() {
+    upArrow.press = function () {
       s.vy = -speed;
       s.vx = 0;
       s.direction = "up";
     };
-    upArrow.release = function() {
+    upArrow.release = function () {
       if (!downArrow.isDown && s.vx === 0) {
         s.vy = 0;
       }
     };
-    rightArrow.press = function() {
+    rightArrow.press = function () {
       s.vx = speed;
       s.vy = 0;
       s.direction = "right";
     };
-    rightArrow.release = function() {
+    rightArrow.release = function () {
       if (!leftArrow.isDown && s.vy === 0) {
         s.vx = 0;
       }
     };
-    downArrow.press = function() {
+    downArrow.press = function () {
       s.vy = speed;
       s.vx = 0;
       s.direction = "down";
     };
-    downArrow.release = function() {
+    downArrow.release = function () {
       if (!upArrow.isDown && s.vx === 0) {
         s.vy = 0;
       }
@@ -4267,7 +4102,7 @@ GA.plugins = function(ga) {
   ### makeTiledWorld
   */
 
-  ga.makeTiledWorld = function(tiledMap, tileset) {
+  ga.makeTiledWorld = function (tiledMap, tileset) {
 
     //Create a group called `world` to contain all the layers, sprites
     //and objects from the `tiledMap`. The `world` object is going to be
@@ -4307,13 +4142,13 @@ GA.plugins = function(ga) {
       );
 
     //Loop through all the map layers
-    tiledMap.layers.forEach(function(tiledLayer){
+    tiledMap.layers.forEach(function (tiledLayer) {
 
       //Make a group for this layer and copy
       //all of the layer properties onto it.
       var layerGroup = ga.group();
 
-      Object.keys(tiledLayer).forEach(function(key) {
+      Object.keys(tiledLayer).forEach(function (key) {
         //Add all the layer's properties to the group, except the
         //width and height (because the group will work those our for
         //itself based on its content).
@@ -4341,9 +4176,9 @@ GA.plugins = function(ga) {
       if (tiledLayer.type === "tilelayer") {
 
         //Loop through the `data` array of this layer
-        tiledLayer.data.forEach(function(gid, index) {
+        tiledLayer.data.forEach(function (gid, index) {
           var tileSprite, texture, mapX, mapY, tilesetX, tilesetY,
-              mapColumn, mapRow, tilesetColumn, tilesetRow;
+            mapColumn, mapRow, tilesetColumn, tilesetRow;
           //If the grid id number (`gid`) isn't zero, create a sprite
           if (gid !== 0) {
             //Figure out the map column and row number that we're on, and then
@@ -4384,7 +4219,7 @@ GA.plugins = function(ga) {
             //and should be accessible in the `world.objects` array.
 
             var tileproperties = tiledMap.tilesets[0].tileproperties,
-                key = String(gid - 1);
+              key = String(gid - 1);
 
             //If the JSON `tileproperties` object has a sub-object that
             //matches the current tile, and that sub-object has a `name` property,
@@ -4397,7 +4232,7 @@ GA.plugins = function(ga) {
 
               //Copy all of the tile's properties onto the sprite
               //(This includes the `name` property)
-              Object.keys(tileproperties[key]).forEach(function(property) {
+              Object.keys(tileproperties[key]).forEach(function (property) {
 
                 //console.log(tileproperties[key][property])
                 tileSprite[property] = tileproperties[key][property];
@@ -4430,27 +4265,31 @@ GA.plugins = function(ga) {
             layerGroup.addChild(tileSprite);
           }
         });
-      }
-
+      } else 
       //Is this layer an `objectgroup`?
       if (tiledLayer.type === "objectgroup") {
-        tiledLayer.objects.forEach(function(object) {
+        //Because this is an object layer, it doesn't contain any
+        //sprites, just data object. That means it won't be able to
+        //calucalte its own height and width. To help it out, give
+        //the `layerGroup` the same `width` and `height` as the `world`
+        layerGroup.width = world.width;
+        layerGroup.height = world.height;
+        tiledLayer.objects.forEach(function (object) {
           //We're just going to capture the object's properties
           //so that we can decide what to do with it later
 
           //Get a reference to the layer group the object is in
           object.group = layerGroup;
-
-          //Because this is an object layer, it doesn't contain any
-          //sprites, just data object. That means it won't be able to
-          //calucalte its own height and width. To help it out, give
-          //the `layerGroup` the same `width` and `height` as the `world`
-          layerGroup.width = world.width;
-          layerGroup.height = world.height;
-
           //Push the object into the world's `objects` array
           world.objects.push(object);
         });
+      } else 
+      //Is this layer an `imagelayer`?
+      if (tiledLayer.type === "imagelayer") {        
+        let img = ga.sprite(tiledLayer.image);
+        img.width = layerGroup.width = world.width;
+        img.height = layerGroup.height = world.height;
+        layerGroup.addChild(img);
       }
     });
 
@@ -4467,9 +4306,9 @@ GA.plugins = function(ga) {
     //sprite.y = world.getObject("anySprite").y;
 
     world.getObject = function (objectName) {
-      this.searchForObject = function() {
+      this.searchForObject = function () {
         var foundObject;
-        world.objects.some(function(object) {
+        world.objects.some(function (object) {
           if (object.name && object.name === objectName) {
             foundObject = object;
             return true;
@@ -4489,7 +4328,7 @@ GA.plugins = function(ga) {
     world.getObjects = function (namesOfObjects) {
       var objectNames = Array.prototype.slice.call(arguments);
       var foundObjects = [];
-      world.objects.forEach(function(object) {
+      world.objects.forEach(function (object) {
         if (object.name && objectNames.indexOf(object.name) !== -1) {
           foundObjects.push(object);
         }
@@ -4555,7 +4394,7 @@ GA.plugins = function(ga) {
 
   //`requestFullscreen` is used by `enableFullscreen` to launch
   //fullscreen mode.
-  ga.requestFullScreen = function() {
+  ga.requestFullScreen = function () {
     if (!document.fullscreenEnabled) {
       ga.canvas.requestFullscreen();
     }
@@ -4563,7 +4402,7 @@ GA.plugins = function(ga) {
 
   //`exitFullscreen` is used by `enableFullscreen` to exit
   //fullscreen mode.
-  ga.exitFullScreen = function() {
+  ga.exitFullScreen = function () {
     if (document.fullscreenEnabled) {
       document.exitFullscreen();
     }
@@ -4574,9 +4413,9 @@ GA.plugins = function(ga) {
   //screen. It also sets `ga.fullscreenScale` that Ga's `update` loop
   //uses to changed the values of `ga.scale` and `ga.pointer.scale`
   //when fullscreen mode is entered or exited.
-  ga.alignFullscreen = function() {
+  ga.alignFullscreen = function () {
     var scaleX, scaleY;
-    
+
     //Scale the canvas to the correct size.
     //Figure out the scale amount on each axis.
     scaleX = screen.width / ga.canvas.width;
@@ -4596,12 +4435,12 @@ GA.plugins = function(ga) {
       divNode.innerHTML = "<style></style>";
       document.body.appendChild(divNode);
     }
-    
+
     //Unfortunately we also need to do some browser detection
     //to inject the full screen CSS with the correct vendor 
     //prefix. So, let's find out what the `userAgent` is.
     //`ua` will be an array containing lower-case browser names.
-    var ua = navigator.userAgent.toLowerCase(); 
+    var ua = navigator.userAgent.toLowerCase();
 
     //Now Decide whether to center the canvas vertically or horizontally.
     //Wide canvases should be centered vertically, and 
@@ -4657,7 +4496,7 @@ GA.plugins = function(ga) {
   It automatically centers the game canvas for the best fit. Optionally supply any number of ascii
   keycodes as arguments to represent the keyboard keys that should exit fullscreen mode.
   */
-  ga.enableFullscreen = function(exitKeyCodes) {
+  ga.enableFullscreen = function (exitKeyCodes) {
 
     //Get an array of the optional exit key codes.
     if (exitKeyCodes) exitKeyCodes = Array.prototype.slice.call(arguments);
@@ -4671,22 +4510,22 @@ GA.plugins = function(ga) {
     ga.canvas.addEventListener("touchend", ga.requestFullScreen, false);
 
     if (exitKeyCodes) {
-      exitKeyCodes.forEach(function(keyCode) {
+      exitKeyCodes.forEach(function (keyCode) {
         window.addEventListener(
           "keyup",
-          function(event){
+          function (event) {
             if (event.keyCode === keyCode) {
               ga.exitFullScreen();
             }
             event.preventDefault();
-          }, 
+          },
           false
         );
       });
     }
   }
 
-  ga.launchFullscreen = function(sprite) {
+  ga.launchFullscreen = function (sprite) {
     if (ga.hitTestPoint(ga.pointer.position, sprite)) ga.enableFullscreen();
   }
 
@@ -4694,8 +4533,8 @@ GA.plugins = function(ga) {
   //full screen mode. If it is, the game's scale is set
   //to `fullscreen.scale`. If not, and the canvas hasn't already
   //been scaled, the scale reverts back to 1.   
-  ga.scaleFullscreen = function() {
-    if(document.fullscreenEnabled) {
+  ga.scaleFullscreen = function () {
+    if (document.fullscreenEnabled) {
       ga.scale = ga.fullscreenScale;
       ga.pointer.scale = ga.fullscreenScale;
     } else {
@@ -4755,7 +4594,7 @@ GA.plugins = function(ga) {
       }
   */
 
-  ga.makeSound = function(source, loadHandler) {
+  ga.makeSound = function (source, loadHandler) {
 
     //The sound object that this function returns.
     var o = {};
@@ -4806,9 +4645,9 @@ GA.plugins = function(ga) {
     //Reverb properties
     o.reverb = false;
     o.reverbImpulse = null;
-    
+
     //The sound object's methods.
-    o.play = function() {
+    o.play = function () {
 
       //Set the start time (it will be `0` when the sound
       //first starts.
@@ -4830,7 +4669,7 @@ GA.plugins = function(ga) {
       //If there's no reverb, bypass the convolverNode
       if (o.reverb === false) {
         o.volumeNode.connect(o.panNode);
-      } 
+      }
 
       //If there is reverb, connect the `convolverNode` and apply
       //the impulse response
@@ -4839,7 +4678,7 @@ GA.plugins = function(ga) {
         o.convolverNode.connect(o.panNode);
         o.convolverNode.buffer = o.reverbImpulse;
       }
-      
+
       //Connect the `panNode` to the destination to complete the chain.
       o.panNode.connect(actx.destination);
 
@@ -4882,7 +4721,7 @@ GA.plugins = function(ga) {
       o.playing = true;
     };
 
-    o.pause = function() {
+    o.pause = function () {
       //Pause the sound if it's playing, and calculate the
       //`startOffset` to save the current position.
       if (o.playing) {
@@ -4892,7 +4731,7 @@ GA.plugins = function(ga) {
       }
     };
 
-    o.restart = function() {
+    o.restart = function () {
       //Stop the sound if it's playing, reset the start and offset times,
       //then call the `play` method again.
       if (o.playing) {
@@ -4902,7 +4741,7 @@ GA.plugins = function(ga) {
       o.play();
     };
 
-    o.playFrom = function(value) {
+    o.playFrom = function (value) {
       if (o.playing) {
         o.soundNode.stop(0);
       }
@@ -4910,7 +4749,7 @@ GA.plugins = function(ga) {
       o.play();
     };
 
-    o.setEcho = function(delayValue, feedbackValue, filterValue) {
+    o.setEcho = function (delayValue, feedbackValue, filterValue) {
       if (delayValue === undefined) delayValue = 0.3;
       if (feedbackValue === undefined) feedbackValue = 0.3;
       if (filterValue === undefined) filterValue = 0;
@@ -4920,7 +4759,7 @@ GA.plugins = function(ga) {
       o.echo = true;
     };
 
-    o.setReverb = function(duration, decay, reverse) {
+    o.setReverb = function (duration, decay, reverse) {
       if (duration === undefined) duration = 2;
       if (decay === undefined) decay = 2;
       if (reverse === undefined) reverse = false;
@@ -4932,7 +4771,7 @@ GA.plugins = function(ga) {
     //The first argument is the volume that the sound should
     //fade to, and the second value is the duration, in seconds,
     //that the fade should last.
-    o.fade = function(endValue, durationInSeconds) {
+    o.fade = function (endValue, durationInSeconds) {
       if (o.playing) {
         o.volumeNode.gain.linearRampToValueAtTime(
           o.volumeNode.gain.value, actx.currentTime
@@ -4944,27 +4783,27 @@ GA.plugins = function(ga) {
     };
 
     //Fade a sound in, from an intial volume level of zero.
-    o.fadeIn = function(durationInSeconds) {
-      
+    o.fadeIn = function (durationInSeconds) {
+
       //Set the volume to 0 so that you can fade
       //in from silence
       o.volumeNode.gain.value = 0;
       o.fade(1, durationInSeconds);
-    
+
     };
 
     //Fade a sound out, from its current volume level to zero.
-    o.fadeOut = function(durationInSeconds) {
+    o.fadeOut = function (durationInSeconds) {
       o.fade(0, durationInSeconds);
     };
-    
+
     //Volume and pan getters/setters.
     Object.defineProperties(o, {
       volume: {
-        get: function() {
+        get: function () {
           return o.volumeValue;
         },
-        set: function(value) {
+        set: function (value) {
           o.volumeNode.gain.value = value;
           o.volumeValue = value;
         },
@@ -4977,14 +4816,14 @@ GA.plugins = function(ga) {
       //So the code checks for this and uses the older 3D panner
       //if 2D isn't available.
       pan: {
-        get: function() {
+        get: function () {
           if (!actx.createStereoPanner) {
             return o.panValue;
           } else {
             return o.panNode.pan.value;
           }
         },
-        set: function(value) {
+        set: function (value) {
           if (!actx.createStereoPanner) {
             //Panner objects accept x, y and z coordinates for 3D
             //sound. However, because we're only doing 2D left/right
@@ -4992,8 +4831,8 @@ GA.plugins = function(ga) {
             //the first one. However, for a natural effect, the z
             //value also has to be set proportionately.
             var x = value,
-                y = 0,
-                z = 1 - Math.abs(x);
+              y = 0,
+              z = 1 - Math.abs(x);
             o.panNode.setPosition(x, y, z);
             o.panValue = value;
           } else {
@@ -5006,18 +4845,18 @@ GA.plugins = function(ga) {
 
     //The `load` method. It will call the `loadHandler` passed
     //that was passed as an argument when the sound has loaded.
-    o.load = function() {
+    o.load = function () {
       var xhr = new XMLHttpRequest();
 
       //Use xhr to load the sound file.
       xhr.open("GET", source, true);
       xhr.responseType = "arraybuffer";
-      xhr.addEventListener("load", function() {
+      xhr.addEventListener("load", function () {
 
         //Decode the sound and store a reference to the buffer.
         actx.decodeAudioData(
           xhr.response,
-          function(buffer) {
+          function (buffer) {
             o.buffer = buffer;
             o.hasLoaded = true;
 
@@ -5030,7 +4869,7 @@ GA.plugins = function(ga) {
           },
 
           //Throw an error if the sound can't be decoded.
-          function(error) {
+          function (error) {
             throw new Error("Audio could not be decoded: " + error);
           }
         );
@@ -5049,10 +4888,10 @@ GA.plugins = function(ga) {
 
   //### sound
   //A convenience method that lets you access loaded sounds by their file names.
-  ga.sound = function(soundFileName){
+  ga.sound = function (soundFileName) {
     return ga.assets[soundFileName];
-  };  
-  
+  };
+
   /*
   ###soundEffect
 
@@ -5081,7 +4920,7 @@ GA.plugins = function(ga) {
   Experiment by changing these parameters to see what kinds of effects you can create, and build
   your own library of custom sound effects for games.
   */
-  ga.soundEffect = function(
+  ga.soundEffect = function (
     frequencyValue,      //The sound's fequency pitch in Hertz
     attack,              //The time, in seconds, to fade the sound in
     decay,               //The time, in seconds, to fade the sound out
@@ -5134,7 +4973,7 @@ GA.plugins = function(ga) {
     if (!actx.createStereoPanner) {
       pan.setPosition(panValue, 0, 1 - Math.abs(panValue));
     } else {
-      pan.pan.value = panValue; 
+      pan.pan.value = panValue;
     }
     oscillator.type = type;
 
@@ -5143,7 +4982,7 @@ GA.plugins = function(ga) {
     //specified by `frequencyValue`. The random pitch will be either
     //above or below the target frequency.
     var frequency;
-    var randomInt = function(min, max){
+    var randomInt = function (min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min
     };
     if (randomValue > 0) {
@@ -5168,7 +5007,7 @@ GA.plugins = function(ga) {
     play(oscillator);
 
     //The helper functions:
-    
+
     function addReverb(volumeNode) {
       var convolver = actx.createConvolver();
       convolver.buffer = ga.impulseResponse(reverb[0], reverb[1], reverb[2], actx);
@@ -5180,8 +5019,8 @@ GA.plugins = function(ga) {
 
       //Create the nodes
       var feedback = actx.createGain(),
-          delay = actx.createDelay(),
-          filter = actx.createBiquadFilter();
+        delay = actx.createDelay(),
+        filter = actx.createBiquadFilter();
 
       //Set their values (delay time, feedback time and filter frequency)
       delay.delayTime.value = echo[0];
@@ -5245,11 +5084,11 @@ GA.plugins = function(ga) {
       //If `reverse` is true, make the sound drop in pitch
       if (!reverse) {
         oscillatorNode.frequency.linearRampToValueAtTime(
-          frequency, 
+          frequency,
           actx.currentTime + wait
         );
         oscillatorNode.frequency.linearRampToValueAtTime(
-          frequency - pitchBendAmount, 
+          frequency - pitchBendAmount,
           actx.currentTime + wait + attack + decay
         );
       }
@@ -5258,11 +5097,11 @@ GA.plugins = function(ga) {
       //jumping sounds
       else {
         oscillatorNode.frequency.linearRampToValueAtTime(
-          frequency, 
+          frequency,
           actx.currentTime + wait
         );
         oscillatorNode.frequency.linearRampToValueAtTime(
-          frequency + pitchBendAmount, 
+          frequency + pitchBendAmount,
           actx.currentTime + wait + attack + decay
         );
       }
@@ -5273,9 +5112,9 @@ GA.plugins = function(ga) {
 
       //Create two more oscillators and gain nodes
       var d1 = actx.createOscillator(),
-          d2 = actx.createOscillator(),
-          d1Volume = actx.createGain(),
-          d2Volume = actx.createGain();
+        d2 = actx.createOscillator(),
+        d1Volume = actx.createGain(),
+        d2Volume = actx.createGain();
 
       //Set the volume to the `volumeValue`
       d1Volume.gain.value = volumeValue;
@@ -5338,7 +5177,7 @@ GA.plugins = function(ga) {
   a convolver node can blend with the source sound. Make sure to include this function along with `makeSound`
   and `soundEffect` if you need to use the reverb feature.
   */
-  ga.impulseResponse = function(duration, decay, reverse, actx) {
+  ga.impulseResponse = function (duration, decay, reverse, actx) {
 
     //The length of the buffer.
     var length = actx.sampleRate * duration;
@@ -5349,11 +5188,11 @@ GA.plugins = function(ga) {
     //Use `getChannelData` to initialize empty arrays to store sound data for
     //the left and right channels.
     var left = impulse.getChannelData(0),
-        right = impulse.getChannelData(1);
+      right = impulse.getChannelData(1);
 
     //Loop through each sample-frame and fill the channel
     //data with random noise.
-    for (var i = 0; i < length; i++){
+    for (var i = 0; i < length; i++) {
 
       //Apply the reverse effect, if `reverse` is `true`.
       var n;
@@ -5372,5 +5211,5 @@ GA.plugins = function(ga) {
     //Return the `impulse`.
     return impulse;
   };
-//plugins ends
+  //plugins ends
 };

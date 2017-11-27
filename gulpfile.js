@@ -9,6 +9,7 @@ const gulp = require('gulp')
     , minifyCss = require("gulp-minify-css")
     , merge = require('merge-stream')
     , babel = require('gulp-babel')
+    , sourcemaps = require('gulp-sourcemaps')
     , babel_env = require('babel-preset-env')
     ;
 
@@ -17,6 +18,7 @@ gulp.task('build', function () {
         './ga.js', 'plugins.js'
     ]
         , { base: '.' })
+        .pipe(sourcemaps.init())
         .pipe(babel({
             presets: [babel_env]
         }))
@@ -28,10 +30,25 @@ gulp.task('build', function () {
             path.basename += ".min";
             // path.extname = ".js"
         }))
-        .pipe(gulp.dest('./dist'))
-        .pipe(concat('ga.all.min.js'))
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('./dist'));
 });
-gulp.task('default', ['build'], () => {
+gulp.task('build-all', function () {
+    return gulp.src([
+        './ga.js', 'plugins.js'
+    ]
+        , { base: '.' })
+        .pipe(sourcemaps.init())
+        .pipe(babel({
+            presets: [babel_env]
+        }))
+        .pipe(uglify().on('error', function (e) {
+            console.log(e);
+        }))
+        .pipe(concat('ga.all.min.js'))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('./dist'));
+});
+gulp.task('default', ['build', 'build-all'], () => {
 
 });
