@@ -639,17 +639,17 @@ GA.plugins = function (ga) {
           this.y = sprite.y + sprite.height - (this.height / 4 * 3);
         }
         //If the camera reaches the edge of the map, stop it from moving
-        if (this.x < 0) {
-          this.x = 0;
+        if (this.x < world.origin.x) {
+          this.x = world.origin.x;
         }
-        if (this.y < 0) {
-          this.y = 0;
+        if (this.y < world.origin.y) {
+          this.y = world.origin.y;
         }
-        if (this.x + this.width > world.width) {
-          this.x = world.width - this.width;
+        if (this.x + this.width > world.origin.x + world.width) {
+          this.x = world.origin.x + world.width - this.width;
         }
-        if (this.y + this.height > world.height) {
-          this.y = world.height - this.height;
+        if (this.y + this.height > world.y + world.height) {
+          this.y = world.origin.y + world.height - this.height;
         }
       },
       centerOver: function (sprite) {
@@ -4218,7 +4218,7 @@ GA.plugins = function (ga) {
             //I've dedcided that any tiles that have a `name` property are important
             //and should be accessible in the `world.objects` array.
 
-            var tileproperties = tiledMap.tilesets[0].tileproperties,
+            var tileproperties = tiledMap.tilesets[0].tileproperties || {},
               key = String(gid - 1);
 
             //If the JSON `tileproperties` object has a sub-object that
@@ -4287,8 +4287,6 @@ GA.plugins = function (ga) {
       //Is this layer an `imagelayer`?
       if (tiledLayer.type === "imagelayer") {        
         let img = ga.sprite(tiledLayer.image);
-        img.width = layerGroup.width = world.width;
-        img.height = layerGroup.height = world.height;
         layerGroup.addChild(img);
       }
     });
