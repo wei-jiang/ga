@@ -410,8 +410,8 @@ GA.plugins = function (ga) {
   };
 
   function internal_move(sprite) {
-    sprite.x += sprite.vx | 0;
-    sprite.y += sprite.vy | 0;
+    sprite.x += sprite.vx || 0;
+    sprite.y += sprite.vy || 0;
   }
 
   /*

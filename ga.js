@@ -2719,10 +2719,10 @@ GA.create = function(width, height, setup, assetsToLoad, load) {
     };
 
     //Attach event listeners
-    document.addEventListener(
+    ga.canvas.addEventListener(
       "keydown", key.downHandler.bind(key), false
     );
-    document.addEventListener(
+    ga.canvas.addEventListener(
       "keyup", key.upHandler.bind(key), false
     );
     return key;
